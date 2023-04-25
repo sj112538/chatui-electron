@@ -1,0 +1,134 @@
+.addSession {
+  cursor: pointer;
+  border: 1px dashed #3478e7;
+  color: #3478e7;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  margin: 0 auto;
+  min-width: 70px
+}
+
+.checkList {
+  display: flex;
+  padding-top: 20px;
+  padding-bottom: 10px
+}
+
+@media (max-width: 1200px) {
+  .siderList {
+    position: absolute;
+    z-index: 3;
+    height: 100%;
+    left: 30px;
+  }
+}
+
+@media (max-width: 400px) {
+  .siderList {
+    width: calc(100% - 30px) !important;
+  }
+}
+
+.siderList {
+  z-index: 3;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  background-image: linear-gradient(to bottom right, rgb(248, 231, 231), rgb(255, 255, 255));
+
+  .linkMan {
+    height: calc(100% - 200px);
+    flex: 1;
+  }
+
+  .linkBox {
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 100%;
+  }
+
+  .searchTop {
+    padding-top: 40px;
+    display: flex;
+    place-items: center;
+    flex-direction: column;
+    position: sticky;
+    top: 0;
+  }
+
+  .search-inut {
+    width: 80%;
+    margin: 0 auto;
+    padding-bottom: 10px;
+
+    .el-input {
+      width: 100%;
+    }
+  }
+
+  .linkItem {
+    height: 80px;
+    margin: 10px;
+    display: flex;
+    place-items: center;
+    justify-content: center;
+
+    &:hover {
+      background: #FFF;
+      border-radius: 5px;
+    }
+
+    .linkItemBox {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      place-items: center;
+      cursor: pointer;
+    }
+
+    .linkItemAva {
+      width: 40px;
+    }
+
+    .modelName {
+      padding-left: 20px;
+      display: inline-block;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      width: 180px;
+      overflow: hidden;
+    }
+  }
+
+  .linkItem-new {
+    .linkItemBox {
+      margin: 0 auto !important;
+    }
+
+    height: 30px !important;
+    @extend .linkItem;
+    display: block;
+
+    &:hover {
+      background: none;
+    }
+
+    margin: 0 !important;
+    padding-top: 10px !important;
+    position: sticky;
+    top: 0;
+  }
+
+  .selectLink {
+    background: #FFF;
+    border-radius: 5px;
+  }
+}
+
+.settingCollapse {
+  margin: 10px;
+}

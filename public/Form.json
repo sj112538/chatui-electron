@@ -1,0 +1,204 @@
+{
+  "chatCompletion": {
+    "formOptions": {
+      "temperature": {
+        "info": "控制生成文本的“创造力”，该参数较高时生成的文本可能更加奇特，较低时则更加传统。取值范围为0到2。",
+        "label": "Temperature",
+        "type": "input-number",
+        "rules": {
+          "min": 0,
+          "max": 2
+        }
+      },
+      "top_p": {
+        "info": "控制生成文本的“保守度”，该参数较高时生成的文本可能更加传统、固定，较低时候则更加自由、随机。取值范围为0到1之间的小数。",
+        "label": "Top P",
+        "type": "input-number",
+        "rules": {
+          "min": 0,
+          "max": 1
+        }
+      },
+      "max_tokens": {
+        "label": "Max Tokens",
+        "type": "input-number",
+        "rules": {
+          "min": 0
+        }
+      },
+      "presence_penalty": {
+        "info": "惩罚已生成文本中出现的token再次出现的程度，该参数的值越高，则生成的文本中出现过的token越不容易再次出现。取值范围为-2到2之间的小数。",
+        "label": "Presence Penalty",
+        "type": "input-number",
+        "rules": {
+          "min": -2,
+          "max": 2
+        }
+      },
+      "frequency_penalty": {
+        "info": "惩罚生成文本中过于频繁出现的token，该参数的值越高，则生成的文本中频繁出现过的token越不容易出现。取值范围为-2到2之间的小数。",
+        "label": "Frequency Penalty",
+        "type": "input-number",
+        "rules": {
+          "min": -2,
+          "max": 2
+        }
+      }
+    }
+  },
+  "openAi微调": {
+    "formOptions": {
+      "training_file": {
+        "info": "上传你的训练数据",
+        "label": "Training File",
+        "type": "select",
+        "required": true
+      },
+      "validation_file": {
+        "info": "上传你的验证数据",
+        "label": "Validation File",
+        "type": "select",
+        "required": false
+      },
+      "model": {
+        "info": "选择你要使用的模型",
+        "label": "Model",
+        "type": "select",
+        "required": false,
+        "default": "curie"
+      },
+      "n_epochs": {
+        "info": "指定你的模型应该训练的次数",
+        "label": "Number of Epochs",
+        "type": "input-number",
+        "rules": {
+          "min": 1
+        },
+        "required": false,
+        "default": 4
+      },
+      "batch_size": {
+        "info": "指定你要的批次大小",
+        "label": "Batch Size",
+        "type": "input-number",
+        "rules": {
+          "min": 1
+        },
+        "required": false
+      },
+      "learning_rate_multiplier": {
+        "info": "指定学习率的倍数",
+        "label": "Learning Rate Multiplier",
+        "type": "input-number",
+        "rules": {
+          "min": 0
+        },
+        "required": false
+      },
+      "prompt_loss_weight": {
+        "info": "当你想更精细地控制生成的文本时可以使用 prompt loss. 如果你在训练模型时使用了 prompt loss, 你可以通过这个参数来调整其权重",
+        "label": "Prompt Loss Weight",
+        "type": "input-number",
+        "rules": {
+          "min": 0,
+          "max": 1
+        },
+        "required": false,
+        "default": 0.01
+      },
+      "compute_classification_metrics": {
+        "info": "是否考虑分类指标. 如果你要在生成文本任务中判断偏向性，你可以打开此项来计算F1指标",
+        "label": "Compute Classification Metrics",
+        "type": "checkbox",
+        "required": false,
+        "default": false
+      },
+      "classification_n_classes": {
+        "info": "如果你打开了计算分类指标这个选项，你必须指定分类数量",
+        "label": "Number of Classes",
+        "type": "input-number",
+        "rules": {
+          "min": 2
+        },
+        "required": false
+      },
+      "classification_positive_class": {
+        "info": "如果你打开了计算分类指标这个选项，你可以指定分类中的正类名称",
+        "label": "Positive Class",
+        "type": "input-text",
+        "required": false
+      },
+      "classification_betas": {
+        "info": "如果你打开了计算分类指标这个选项，你可以指定F1指标式子中的beta值。如果beta等于1，此时就是F1指标",
+        "label": "Classification Betas",
+        "type": "input-number",
+        "required": false
+      },
+      "suffix": {
+        "info": "一些调试需要的后缀名",
+        "label": "Suffix",
+        "type": "input-text",
+        "required": false
+      }
+    }
+  },
+  "vits3": {
+    "formOptions": {
+      "speakerId": {
+        "info": "一个模型可以有多种演讲人，输入演讲人ID",
+        "label": "speakerId",
+        "type": "input-number",
+        "required": false,
+        "rules": {
+          "min": 0
+        }
+      },
+      "emotion": {
+        "info": "情感ID",
+        "label": "emotion",
+        "type": "input-text",
+        "required": false,
+        "rules": {
+          "min": 0
+        }
+      }
+    }
+  },
+  "vits4": {
+    "formOptions": {
+      "语言": {
+        "info": "选择语言",
+        "label": "语言",
+        "type": "select",
+        "select": [
+          {
+            "label": "中文",
+            "value": 0
+          },
+          {
+            "label": "日语",
+            "value": 1
+          },
+          {
+            "label": "中日混合",
+            "value": 2
+          }
+        ]
+      },
+      "模型信息位置": {
+        "info": "info.json文件的位置，当一个config.json对应多个模型文件的时候需要设置该选项",
+        "label": "模型信息位置",
+        "type": "input-text-file-select",
+        "multiple": false,
+        "seleType": "文件"
+      },
+      "模型配置文件位置": {
+        "info": "当前模型config.json文件的位置，当配置为多模型时此项必须填写",
+        "label": "模型信息位置",
+        "type": "input-text-file-select",
+        "multiple": false,
+        "seleType": "文件"
+      }
+    }
+  }
+}

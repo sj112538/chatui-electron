@@ -1,0 +1,31 @@
+{
+  "appId": "lethe.com",
+  "productName": "my-project",
+  "copyright": "lethe Copyright © 2022",
+  "files": [
+    "./electron/main/index.ts",
+    "./dist"
+  ],
+  "extraFiles": [
+    "./server"
+  ],
+  "directories": {
+    "output": "dists"
+  },
+  "win": {
+    "requestedExecutionLevel": "requireAdministrator",
+    "icon":"./src/assets/icon/logo.jpg",
+    "target": [
+      "nsis",
+      "zip"
+    ]
+  },
+  "nsis": {
+    "oneClick": false,
+    "allowElevation": true,
+    "allowToChangeInstallationDirectory": true,
+    "createDesktopShortcut": true,
+    "createStartMenuShortcut": true,
+    "shortcutName": "leDom"
+  }
+}
