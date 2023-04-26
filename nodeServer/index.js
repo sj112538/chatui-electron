@@ -98,18 +98,17 @@ app.ws("/cmd", (ws, req) => {
   });
   ws.on("open", (data) => { });
   term.on("data", function (data) {
+    console.log(data);
     ws.send(data);
   });
   ws.on("message", (data) => {
     const json = JSON.parse(data)
     if (json.Op === 'resize') {
-      term.resize(json.Cols,json.Rows)
+      term.resize(json.Cols, json.Rows)
       return
     }
     term.write(json.Data);
   });
-  ws.on("close", function () {
-    term.kill();
-  });
 });
-app.listen(3030);
+const args = process.argv.slice(2);
+app.listen(args[0]);

@@ -2,12 +2,12 @@ import Http from '../http'
 export const filesApi = new class localFiles extends Http {
   getDiskInfo() {
     return this.get('get', {
-      allUrl: `http://127.0.0.1:3030/getDisk`
+      allUrl: `http://127.0.0.1:${GLOB.VITE_API_PORT}/getDisk`
     })
   }
   getFiles(folderPath: string) {
     return this.post('post', {
-      allUrl: `http://127.0.0.1:3030/getfiles`,
+      allUrl: `http://127.0.0.1:${GLOB.VITE_API_PORT}/getfiles`,
       body: {
         path: folderPath
       }

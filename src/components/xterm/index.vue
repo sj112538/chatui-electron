@@ -1,7 +1,7 @@
 <template>
   <div v-loading="loading" ref="terminal" id="xterm" element-loading-text="拼命连接中"></div>
 </template>
-<script setup>
+<script setup lang="ts">
 import { debounce } from 'lodash'
 import { Terminal } from "xterm";
 import { FitAddon } from "xterm-addon-fit";
@@ -11,8 +11,8 @@ const fitAddon = new FitAddon();
 
 let first = ref(true);
 let loading = ref(false);
-let terminalSocket = ref(null);
-let term = ref(null);
+let terminalSocket = ref<WebSocket | null>(null);
+let term = ref();
 const props = defineProps({
   type: String
 })
@@ -21,16 +21,16 @@ const runRealTerminal = () => {
   loading.value = false;
 }
 
-const onWSReceive = (message) => {
+const onWSReceive = (message: { data: any; }) => {
   const data = message.data
-  term.value.element && term.value.focus()
-  term.value.write(data)
+  term.value!.element && term.value!.focus()
+  term.value!.write(data)
 }
 
-const errorRealTerminal = (ex) => {
+const errorRealTerminal = (ex: any) => {
   let message = ex.message;
   if (!message) message = 'disconnected'
-  term.value.write(`\x1b[31m${message}\x1b[m\r\n`)
+  term.value!.write(`\x1b[31m${message}\x1b[m\r\n`)
   console.log("err");
 }
 const closeRealTerminal = () => {
@@ -38,27 +38,27 @@ const closeRealTerminal = () => {
 }
 
 const createWS = () => {
-  const url = `ws://127.0.0.1:3030/cmd`
-  terminalSocket.value = new WebSocket(url);
-  terminalSocket.value.onopen = runRealTerminal;
-  terminalSocket.value.onmessage = onWSReceive;
-  terminalSocket.value.onclose = closeRealTerminal;
-  terminalSocket.value.onerror = errorRealTerminal;
+  const url = `ws://127.0.0.1:${GLOB.VITE_API_PORT}/cmd`
+  terminalSocket.value! = new WebSocket(url);
+  terminalSocket.value!.onopen = runRealTerminal;
+  terminalSocket.value!.onmessage = onWSReceive;
+  terminalSocket.value!.onclose = closeRealTerminal;
+  terminalSocket.value!.onerror = errorRealTerminal;
 }
 const initWS = () => {
-  if (!terminalSocket.value) {
+  if (!terminalSocket.value!) {
     createWS();
   }
-  if (terminalSocket.value && terminalSocket.value.readyState > 1) {
-    terminalSocket.value.close();
+  if (terminalSocket.value! && terminalSocket.value!.readyState > 1) {
+    terminalSocket.value!.close();
     createWS();
   }
 }
 // 发送给后端,调整后端终端大小,和前端保持一致,不然前端只是范围变大了,命令还是会换行
 const resizeRemoteTerminal = () => {
-  const { cols, rows } = term.value
+  const { cols, rows } = term.value!
   if (isWsOpen()) {
-    terminalSocket.value.send(JSON.stringify({
+    terminalSocket.value!.send(JSON.stringify({
       Op: 'resize',
       Cols: cols,
       Rows: rows,
@@ -66,7 +66,7 @@ const resizeRemoteTerminal = () => {
   }
 }
 const initTerm = () => {
-  term.value = new Terminal({
+  term.value! = new Terminal({
     lineHeight: 1.2,
     fontSize: 12,
     fontFamily: "Monaco, Menlo, Consolas, 'Courier New', monospace",
@@ -75,17 +75,15 @@ const initTerm = () => {
       background: '#000', //背景色
       cursor: 'help',//设置光标
     },
-    rendererType: "canvas",
     // 光标闪烁
     cursorBlink: true,
     cursorStyle: 'underline',
     scrollback: 100,
     tabStopWidth: 4,
-    convertEol: true,
-    enableInputFlow: true
+    convertEol: true
   });
-  term.value.open(terminal.value);
-  term.value.loadAddon(fitAddon);
+  term.value!.open(terminal.value);
+  term.value!.loadAddon(fitAddon);
   // 不能初始化的时候fit,需要等terminal准备就绪,可以设置延时操作
   setTimeout(() => {
     fitAddon.fit();
@@ -93,21 +91,20 @@ const initTerm = () => {
 }
 // 是否连接中0 1 2 3 
 const isWsOpen = () => {
-  const readyState = terminalSocket.value && terminalSocket.value.readyState;
+  const readyState = terminalSocket.value! && terminalSocket.value!.readyState;
   return readyState === 1
 }
 const fitTerm = () => {
-  resizeRemoteTerminal()
   fitAddon.fit();
 }
 const onResize = debounce(() => fitTerm(), 800);
 
 const termData = () => {
   // 输入与粘贴的情况,onData不能重复绑定,不然会发送多次
-  term.value.onData(data => {
+  term.value!.onData((data: any) => {
     const command = data
     if (isWsOpen()) {
-      terminalSocket.value.send(
+      terminalSocket.value!.send(
         JSON.stringify({
           Op: 'stdin',
           Data: command,
@@ -129,7 +126,7 @@ watch(() => props.type, () => {
   terminalSocket.value = null;
   initWS();
   // 重置
-  term.value.reset();
+  term.value!.reset();
 })
 
 const init = () => {
@@ -140,19 +137,22 @@ const init = () => {
   onTerminalResize();
   return isWsOpen
 }
-const excute = (command) => {
+const excute = (command: string) => {
+  const commands: string[] = command.split('\n').filter(c => c !== '' && c !== '\r');
   if (isWsOpen()) {
-    terminalSocket.value.send(
-      JSON.stringify({
-        Op: 'stdin',
-        Data: command,
-      })
-    );
+    commands.forEach((c) => {
+      terminalSocket.value!.send(
+        JSON.stringify({
+          Op: 'stdin',
+          Data: c + '\r\n',
+        })
+      );
+    })
   }
 }
 onBeforeUnmount(() => {
   removeResizeListener();
-  terminalSocket.value && terminalSocket.value.close();
+  terminalSocket.value! && terminalSocket.value!.close();
 })
 defineExpose({
   init,

@@ -189,7 +189,7 @@ const xtermRef = ref<InstanceType<typeof Xterm>>()
 const isWsOpen = ref<Function>()
 const initCmd = async (cmd: string) => {
   if (isWsOpen.value && isWsOpen.value!()) {
-    xtermRef.value?.excute(cmd + '\r\n')
+    xtermRef.value?.excute(cmd)
     return
   }
   IsTermOpen.value = true

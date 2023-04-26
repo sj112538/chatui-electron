@@ -42,4 +42,4 @@ if not defined found_vite_api_port (
 move /Y .env.development.tmp .env.development
 
 start /B "" cmd /c "npx vite --port=%port1%" 
-start /B "" cmd /c "cd nodeServer & nodemon index.js"
+start /B "" cmd /c "cd nodeServer & nodemon index.js %port2%"
