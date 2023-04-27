@@ -4,10 +4,11 @@ declare global {
 
   declare const GLOB: ViteEnv
   declare interface ViteEnv {
-    VITE_ENV: string,
-    VITE_OSS: string,
-    VITE_OPENAI: string,
+    VITE_ENV: string
+    VITE_OSS: string
+    VITE_OPENAI: string
     VITE_API_PORT: number
+    VITE_PYTHON_PORT: number
   }
   interface Model extends GptModel {
     id: string;
@@ -252,4 +253,9 @@ declare global {
   interface filesDiskInfo extends FileInfo, DiskInfo {
     select: Boolean
   }
+  interface TermWsMap {
+    python: WebSocket
+    command: WebSocket
+  }
+  type TermWsMapKey = keyof TermWsMap
 }

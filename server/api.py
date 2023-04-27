@@ -1,13 +1,14 @@
-import asyncio
-import json 
-from fastapi import FastAPI, WebSocket
+import json
+import subprocess
+from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 import uvicorn
-from app import Vits
 from fastapi.middleware.cors import CORSMiddleware
 import sys
 from pydantic import BaseModel
-class Path(BaseModel):
-  path:str
+
+class Code(BaseModel):
+    code: str
+
 app = FastAPI()
 
 app.add_middleware(
@@ -18,64 +19,30 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.get("/getDisk")
-async def getDisk():
-    return Vits.get_disk_info()
-  
-@app.post("/getfiles")
-async def getfiles(filesPath:Path):
-    return Vits.getFiles(filesPath.path)
+global_vars = {}
+local_vars = {}
 
-@app.websocket("/cmd")
-async def cmd_output(websocket: WebSocket):
+@app.websocket("/execute")
+async def websocket_endpoint(websocket: WebSocket):
+    await websocket.accept()
     try:
-        await websocket.accept()
-        websocket.send_text('connected\n\r')
-        # 创建 cmd 进程
-        process = await asyncio.create_subprocess_exec(
-            "cmd.exe",
-            stdin=asyncio.subprocess.PIPE,
-            stdout=asyncio.subprocess.PIPE,
-            stderr=asyncio.subprocess.PIPE,
-        )
-        async def send_output():
-            while True:
-                output = await process.stdout.readline()
-                print(output)
-                if not output:
-                    break
-                await websocket.send_text(output.decode())
-        async def send_errors():
-            while True:
-                error = await process.stderr.readline()
-                if not error:
-                    break
-                await websocket.send_text(error.decode())
-        asyncio.create_task(send_output())
-        asyncio.create_task(send_errors())
         while True:
+            data = await websocket.receive_text()
             try:
-                message = await websocket.receive_text()
-                json_message = json.loads(message)
-                if json_message['Op'] == 'stdin':
-                    command = json_message['Data']
-                    await websocket.send_text(command)
-                    process.stdin.write(command.encode())
-                    await process.stdin.drain()
-                elif json_message['Op'] == 'resize':
-                    cols = json_message['Cols']
-                    rows = json_message['Rows']
-                    # 将 resize 这个命令发送给子进程的 stdin，这样子进程就知道终端的尺寸了
-                    process.stdin.write(f"\033[8;{rows};{cols}t".encode() + b"\n")
-                    await process.stdin.drain()
+                command = json.loads(data)['Data']
+                proc = subprocess.Popen(['python', '-c', command],
+                                        stdout=subprocess.PIPE,
+                                        stderr=subprocess.PIPE,
+                                        universal_newlines=True)
+                stdout, stderr = proc.communicate()
+                if stdout:
+                    await websocket.send_text(stdout)
+                if stderr:
+                    await websocket.send_text(stderr)
             except Exception as e:
-                print(f"Error: {e}")
-                process.kill()
-                await process.wait()
-                break
-    except Exception as e:
-        print(f"WebSocket Error: {e}")
-
+                await websocket.send_text(str(e))
+    except WebSocketDisconnect as e:
+        await websocket.send_text(str(e))
 if __name__ == "__main__":
-    port = int(sys.argv[1])  # 从命令行参数获取端口号
+    port = int(sys.argv[1])
     uvicorn.run(app, host="127.0.0.1", port=port)

@@ -86,7 +86,7 @@
     <v-md-preview v-else :text="textItem.message" />
     <template v-if="IsTermOpen">
       <el-divider style="width: calc(100% - 30px);margin: 0 auto;" />
-      <Xterm ref="xtermRef" />
+        <div ref="xtermRef" />
     </template>
   </div>
   <div class="bottomAction">
@@ -100,7 +100,6 @@ import { nowSessionName, saveSession, sessionMap } from '../../chatLeft';
 import { Edit, CopyDocument, Close, Check, Refresh, Headset, Bottom } from '@element-plus/icons-vue'
 import { VMdPreview, VMdEditor } from '@/components/index'
 import { formData } from '../../setting/hook/useForm';
-import Xterm from '@/components/xterm/index.vue'
 const roleList = [{
   label: '用户',
   value: 'user'
@@ -185,19 +184,20 @@ const codeHandler = () => {
     app.mount(code)
   })
 }
-const xtermRef = ref<InstanceType<typeof Xterm>>()
+const xtermRef = ref<HTMLElement | undefined>()
 const isWsOpen = ref<Function>()
 const initCmd = async (cmd: string) => {
+  const { init, excute } = useCommand(xtermRef)
   if (isWsOpen.value && isWsOpen.value!()) {
-    xtermRef.value?.excute(cmd)
+    excute(cmd)
     return
   }
   IsTermOpen.value = true
   await nextTick()
-  isWsOpen.value = xtermRef.value?.init()
+  isWsOpen.value = init()
   const inter = setInterval(() => {
     if (isWsOpen.value!()) {
-      xtermRef.value?.excute(cmd + '\r\n')
+      excute(cmd + '\r\n')
       clearInterval(inter)
     }
   }, 100)
