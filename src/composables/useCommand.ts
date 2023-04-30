@@ -1,22 +1,24 @@
 import { debounce } from 'lodash'
 import { ref } from 'vue'
-import { Terminal } from "xterm";
-import { FitAddon } from "xterm-addon-fit";
-import "xterm/css/xterm.css";
-const terminalSocket = ref<WebSocket | null>(null);
-
-const termWsMap = ref<TermWsMap | null>(null);
+import { Terminal } from "xterm"
+import { FitAddon } from "xterm-addon-fit"
+import "xterm/css/xterm.css"
+const termWsMap = ref<TermWsMap | null>({
+  python: null,
+  command: null
+})
+const termList = ref<HTMLElement[]>([])
 export const useCommand = (terminal: Ref<HTMLElement | undefined>) => {
-  const fitAddon = new FitAddon();
-  let loading = ref(false);
-  let term = ref<Terminal>();
+  const fitAddon = new FitAddon()
+  let loading = ref(false)
+  let term = ref<Terminal>()
   const type = ref<TermWsMapKey>('command')
   const init = () => {
     loading.value = true
-    initWS();
-    initTerm();
-    termData();
-    onTerminalResize();
+    initWS()
+    initTerm()
+    termData()
+    onTerminalResize()
     return isWsOpen
   }
   const initTerm = () => {
@@ -35,45 +37,49 @@ export const useCommand = (terminal: Ref<HTMLElement | undefined>) => {
       scrollback: 100,
       tabStopWidth: 4,
       convertEol: true
-    });
-    term.value!.open(terminal.value!);
-    term.value!.loadAddon(fitAddon);
+    })
+    if (termList.value.some(e => e === terminal.value)) {
+      return
+    }
+    term.value!.open(terminal.value!)
+    termList.value.push(terminal.value!)
+    term.value!.loadAddon(fitAddon)
     // 不能初始化的时候fit,需要等terminal准备就绪,可以设置延时操作
     setTimeout(() => {
-      fitAddon.fit();
+      fitAddon.fit()
     }, 5)
   }
   const initWS = () => {
-    if (termWsMap.value?.command) {
+    if (!termWsMap.value?.python) {
       createWS('python', `ws://127.0.0.1:${GLOB.VITE_PYTHON_PORT}/execute`)
     }
-    if (termWsMap.value?.python) {
+    if (!termWsMap.value?.command) {
       createWS('command', `ws://127.0.0.1:${GLOB.VITE_API_PORT}/cmd`)
     }
   }
   const createWS = (type: TermWsMapKey, url: string) => {
-    termWsMap.value![type] = new WebSocket(url);
-    termWsMap.value![type].onopen = runRealTerminal;
-    termWsMap.value![type].onmessage = onWSReceive;
-    termWsMap.value![type].onclose = closeRealTerminal;
-    termWsMap.value![type].onerror = errorRealTerminal;
+    termWsMap.value![type] = new WebSocket(url)
+    termWsMap.value![type]!.onopen = runRealTerminal
+    termWsMap.value![type]!.onmessage = onWSReceive
+    termWsMap.value![type]!.onclose = closeRealTerminal
+    termWsMap.value![type]!.onerror = errorRealTerminal
   }
   const runRealTerminal = () => {
-    loading.value = false;
+    loading.value = false
   }
-  const onWSReceive = (message: { data: any; }) => {
+  const onWSReceive = (message: { data: any }) => {
     const data = message.data
     term.value!.element && term.value!.focus()
     term.value!.write(data)
   }
   const errorRealTerminal = (ex: any) => {
-    let message = ex.message;
+    let message = ex.message
     if (!message) message = 'disconnected'
     term.value!.write(`\x1b[31m${message}\x1b[m\r\n`)
-    console.log("err");
+    console.log("err")
   }
   const closeRealTerminal = () => {
-    console.log("close");
+    console.log("close")
   }
   const termData = () => {
     term.value!.onData((data: any) => {
@@ -82,35 +88,41 @@ export const useCommand = (terminal: Ref<HTMLElement | undefined>) => {
       }
       const command = data
       if (isWsOpen('command')) {
-        terminalSocket.value!.send(
+        termWsMap.value!.command!.send(
           JSON.stringify({
             Op: 'stdin',
             Data: command,
           })
-        );
+        )
       }
-    });
+    })
   }
   // 是否连接中0 1 2 3 
-  const isWsOpen = (type: TermWsMapKey) => {
-    const readyState = termWsMap.value![type] && termWsMap.value![type].readyState;
+  const isWsOpen = (type: TermWsMapKey | undefined) => {
+    if (!type) {
+      type = 'command'
+    }
+    const readyState = termWsMap.value![type] && termWsMap.value![type]!.readyState
     return readyState === 1
   }
   const fitTerm = () => {
-    fitAddon.fit();
+    fitAddon.fit()
   }
-  const onResize = debounce(() => fitTerm(), 800);
+  const onResize = debounce(() => fitTerm(), 800)
   const onTerminalResize = () => {
-    window.addEventListener("resize", onResize);
+    window.addEventListener("resize", onResize)
   }
-  const excute = (command: string, type: TermWsMapKey) => {
+  const excute = (command: string, type?: TermWsMapKey) => {
+    if (!type) {
+      type = 'command'
+    }
     if (isWsOpen(type!)) {
-      termWsMap.value![type!].send(
+      termWsMap.value![type!]!.send(
         JSON.stringify({
           Op: 'stdin',
           Data: command,
         })
-      );
+      )
     }
   }
   return {

@@ -186,6 +186,7 @@ const toolbar = {
     action: () => {
       textList.value[editIndex.value].message = formData.value.content
       formData.value.content = keepAdd.value
+      isEdit.value = false
     }
   }
 }

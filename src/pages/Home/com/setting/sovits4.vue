@@ -1,36 +1,177 @@
 <template>
   <div :class="name">
     <el-dialog v-model="dialogVisible" :title="name + '设置'" width="80%" align-center>
+      <el-button type="primary" size="small" @click="addModel">新增模型</el-button>
       <div class="form">
-        <el-form :modelItem="form" ref="vitsForm" :rules="rules">
+        <el-auto-resizer>
+          <template #default="{ width }">
+            <el-table-v2 :columns="columns" :data="form.vits4.modelData" :width="width" :height="500" fixed />
+          </template>
+        </el-auto-resizer>
+      </div>
+    </el-dialog>
+    <el-dialog v-model="visible" title="新增模型" width="80%" align-center>
+      <div class="form">
+        <el-form inline :modelItem="modelFormData" ref="modelForm">
+          <el-form-item label="模型类型">
+            <el-select v-model="modelFormData.type">
+              <el-option value="single" label="单模型"></el-option>
+              <el-option value="multiple" label="多模型"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="配置信息">
+            <el-input v-model="modelFormData.config"></el-input>
+            <file-manager :multiple="false" seleType='文件' v-model:路径="modelFormData.config" />
+          </el-form-item>
+          <el-form-item v-if="modelFormData.type === 'multiple'" label="模型信息">
+            <el-input v-model="modelFormData.info"></el-input>
+            <file-manager :multiple="false" seleType='文件' v-model:路径="modelFormData.info" />
+          </el-form-item>
+          <el-form-item label="模型名称">
+            <el-input v-model="modelFormData.name"></el-input>
+          </el-form-item>
         </el-form>
+        <el-button type='primary' @click="addModels" size="small">新增模型</el-button>
+        <el-auto-resizer>
+          <template #default="{ width }">
+            <el-table-v2 :columns="modelColumns" :data="modelFormData.models" :width="width" :height="500" fixed />
+          </template>
+        </el-auto-resizer>
+        <div class="footer">
+          <el-button @click="visible = false">取消</el-button>
+          <el-button type="primary" @click="submitModel">提交</el-button>
+        </div>
+      </div>
+    </el-dialog>
+    <el-dialog v-model="modelsVisible" title="添加模型" width="80%" align-center>
+      <el-form inline :modelItem="modelsForm" ref="modelForm">
+        <el-form-item label="模型名称">
+          <el-input v-model="modelsForm.name"></el-input>
+        </el-form-item>
+        <el-form-item label="模型封面图片">
+          <el-input v-model="modelsForm.cover"></el-input>
+          <file-manager :multiple="false" seleType='文件' v-model:路径="modelsForm.cover" />
+        </el-form-item>
+        <el-form-item label="模型位置">
+          <el-input v-model="modelsForm.path"></el-input>
+          <file-manager :multiple="false" seleType='文件' v-model:路径="modelsForm.path" />
+        </el-form-item>
+      </el-form>
+      <div class="footer">
+        <el-button @click="modelsVisible = false">取消</el-button>
+        <el-button type="primary" @click="submitModels">提交</el-button>
       </div>
     </el-dialog>
   </div>
 </template>
 
-<script setup lang='ts'>
+<script setup lang='tsx'>
 import useForm from './hook/useForm';
-import { formData } from './hook/useForm'
-const form = ref<vits4>({
-  location: '',
-  isOpen: false,
-  regex: '',
-  modelPos: ''
-})
+import { Column, ElButton, ElForm } from 'element-plus'
 const name = 'vits4'
-try {
-  if (formData.value['vits4']) {
-    form.value = formData.value['vits4']
-  }
-} catch { }
-Reflect.set(formData.value, name, form)
-watch(() => form.value, () => {
-  keep()
+const form = settingStore().FormData
+const visible = ref<boolean>(false)
+if (!form.vits4.modelData) {
+  Reflect.set(form, 'vits4', {})
+  Reflect.set(form.vits4, 'modelData', [])
+}
+const { dialogVisible, open } = useForm()
+const columns: Column[] = [{
+  dataKey: 'index',
+  key: 'index',
+  width: 200,
+  title: '序号',
+  cellRenderer: ({ rowIndex }) => <div style='width:100%;text-align:center'>{rowIndex + 1}</div>
 }, {
-  deep: true
+  dataKey: 'type',
+  key: 'type',
+  width: 300,
+  title: '类型'
+}, {
+  dataKey: 'info',
+  key: 'info',
+  width: 300,
+  title: '模型信息文件位置',
+  cellRenderer: ({ rowData }) => <div style='width:100%;text-align:center'>{rowData.type === 'single' ? '-' : rowData.info}</div>
+}, {
+  dataKey: 'config',
+  key: 'config',
+  width: 300,
+  title: '模型配置文件位置'
+}, {
+  dataKey: 'name',
+  key: 'name',
+  width: 300,
+  title: '模型名称'
+}, {
+  dataKey: 'operate',
+  key: 'operate',
+  width: 300,
+  title: '操作'
+}]
+const modelFormData = ref<ModelFormData>({
+  info: '',
+  config: '',
+  path: '',
+  type: 'single',
+  name: '',
+  models: []
 })
-const { dialogVisible, open, rules, keep } = useForm()
+const submitModel = () => {
+  form.vits4.modelData.push(modelFormData.value)
+  visible.value = false
+}
+const modelForm = ref<InstanceType<typeof ElForm>>()
+const addModel = () => {
+  visible.value = true
+}
+const modelColumns: Column[] = [{
+  title: '模型名称',
+  width: 200,
+  dataKey: 'name',
+  key: "name"
+},
+{
+  title: '模型位置',
+  width: 200,
+  dataKey: 'path',
+  key: "path"
+},
+{
+  title: '模型封面',
+  width: 200,
+  dataKey: 'cover',
+  key: "cover"
+},
+{
+  title: '操作',
+  width: 200,
+  dataKey: 'operate',
+  key: "operate",
+  cellRenderer: ({ rowIndex }: any) => {
+    return (
+      <ElButton type='danger' onClick={() => deleModel(rowIndex)}>删除</ElButton>
+    )
+  },
+}
+]
+const deleModel = (index: number) => {
+  modelFormData.value.models.splice(index, 1)
+}
+
+const modelsVisible = ref<boolean>(false)
+const modelsForm = ref({
+  path: '',
+  name: '',
+  cover: ''
+})
+const submitModels = () => {
+  modelFormData.value.models.push(modelsForm.value)
+  modelsVisible.value = false
+}
+const addModels = () => {
+  modelsVisible.value = true
+}
 defineExpose({
   open,
   name

@@ -4,9 +4,9 @@ import path from "path";
 import AutoImport from "unplugin-auto-import/vite";
 import Component from "unplugin-vue-components/vite";
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
+import vueJsx from '@vitejs/plugin-vue-jsx';
 import optimizer from "vite-plugin-optimizer";
 import { devPlugin, getReplacer } from "./src/plugins/devPlugin"
-import vueJsx from '@vitejs/plugin-vue-jsx';
 declare interface ViteEnv {
   VITE_ENV: string,
   VITE_API_KEY: string
@@ -19,7 +19,6 @@ export default defineConfig(({ mode }) => {
     define: {
       GLOB: Object.freeze(env),
     },
-    
     plugins: [
       vueJsx(),
       vue(),

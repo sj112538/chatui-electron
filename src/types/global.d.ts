@@ -54,6 +54,7 @@ declare global {
     moreTextList: { _value: chatCompletion }[],
     edit: boolean,
     isSkip: boolean
+    isHover: boolean
   }
   interface CreateChatCompletionStreamResponse {
     id: string;
@@ -106,7 +107,23 @@ declare global {
     'vits4': any
     [x: string]: Object
   }
-
+  interface settingFormData {
+    'vits4': vits4SettingForm
+  }
+  interface ModelFormData {
+    info?: string,
+    config: string,
+    path: string,
+    type: 'multiple' | 'single',
+    models: Array<{
+      name: string,
+      path: string
+    }>,
+    name: string
+  }
+  interface vits4SettingForm {
+    modelData: ModelFormData[]
+  }
   interface StableDiffusion {
     location: string
     isOpen: boolean
@@ -254,8 +271,8 @@ declare global {
     select: Boolean
   }
   interface TermWsMap {
-    python: WebSocket
-    command: WebSocket
+    python: WebSocket | null
+    command: WebSocket | null
   }
   type TermWsMapKey = keyof TermWsMap
 }

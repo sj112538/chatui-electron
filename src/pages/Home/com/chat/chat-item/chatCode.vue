@@ -2,7 +2,7 @@
   <div @mouseenter="isHover = true" @mouseleave="isHover = false" id="chatCode" ref="chatCode">
     <div v-if="isHover" class="playBtn" @mouseenter="isHoverCmd = true" @mouseleave="isHoverCmd = false">
       <div v-if="!isHoverCmd" class="commandBtn">[]</div>
-      <div @click="cmdInit" v-else class="commandPlay">
+      <div @click="excute" v-else class="commandPlay">
         <svg style="position: relative;left: 4px;" t="1682422527659" class="icon" viewBox="0 0 1024 1024" version="1.1"
           xmlns="http://www.w3.org/2000/svg" p-id="30693" width="20" height="20">
           <path
@@ -27,9 +27,9 @@ const isHoverCmd = ref<boolean>(false)
 onMounted(() => {
   chatCode.value!.append(props.node as HTMLElement)
 })
-const emit = defineEmits(['initCmd'])
-const cmdInit = () => {
-  emit('initCmd')
+const emit = defineEmits(['excute'])
+const excute = () => {
+  emit('excute')
 }
 </script>
 

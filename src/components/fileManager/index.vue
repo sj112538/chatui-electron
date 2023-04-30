@@ -10,8 +10,8 @@
             <el-button size="small" :disabled="dataLink.next ? false : true" @click="nextDir" type="primary"
               :icon="ArrowRight"></el-button>
           </el-button-group>
-          <el-table-v2 v-if="dataLink.list && columns && columns.length > 0" v-loading="loading" :row-key="'路径'" :columns="columns"
-            :data="dataLink.list" :width="width" :height="460">
+          <el-table-v2 v-if="dataLink.list && columns && columns.length > 0" v-loading="loading" :row-key="'路径'"
+            :columns="columns" :data="dataLink.list" :width="width" :height="460">
           </el-table-v2>
         </template>
       </el-auto-resizer>
@@ -178,7 +178,6 @@ const loadCol = (Info: filesDiskInfo[]) => {
         return
       }
       if (!props.multiple) {
-        console.log(props.multiple);
         return
       }
       return (
@@ -265,7 +264,6 @@ if (!props.multiple) {
   watch(() => selection.value, (e) => {
     if (e.length > 1) {
       const value = selection.value.shift()
-      console.log(value);
     }
   }, {
     deep: true
@@ -299,6 +297,10 @@ defineExpose({
     height: 30px;
   }
 
+  .el-dialog__footer {
+    margin-top: 30px;
+  }
+
   .el-dialog__header {
     display: none;
   }
@@ -321,7 +323,7 @@ defineExpose({
     position: relative;
     position: absolute;
     right: 40px;
-    bottom: 40px;
+    bottom: 65px;
     display: flex;
     align-items: center;
   }

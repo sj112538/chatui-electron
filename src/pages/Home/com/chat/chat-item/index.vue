@@ -86,7 +86,7 @@
     <v-md-preview v-else :text="textItem.message" />
     <template v-if="IsTermOpen">
       <el-divider style="width: calc(100% - 30px);margin: 0 auto;" />
-        <div ref="xtermRef" />
+      <div ref="xtermRef" />
     </template>
   </div>
   <div class="bottomAction">
@@ -113,7 +113,7 @@ const roleList = [{
 const url = GLOB.VITE_OSS
 const props = defineProps({
   item: {
-    type: Object,
+    type: Object as PropType<chatCompletion>,
     required: true
   },
   index: {
@@ -144,9 +144,9 @@ const currentChange = async (number?: number) => {
   } else {
     n = pageCount.value!
   }
-  if (textItem.value.moreTextList[n - 1].value) {
-    Reflect.set(textItem.value.moreTextList[n - 1].value, 'moreTextList', textItem.value.moreTextList)
-    textItem.value = textItem.value.moreTextList[n - 1].value
+  if ((textItem.value as any).moreTextList[n - 1].value) {
+    Reflect.set((textItem.value as any).moreTextList[n - 1].value, 'moreTextList', textItem.value.moreTextList)
+    textItem.value = (textItem.value as any).moreTextList[n - 1].value
   } else {
     Reflect.set(textItem.value.moreTextList[n - 1]._value, 'moreTextList', textItem.value.moreTextList)
     textItem.value = textItem.value.moreTextList[n - 1]._value
@@ -166,38 +166,42 @@ const insertSession = () => {
 }
 const chats = ref<HTMLElement>()
 const codeHandler = () => {
+  if (textItem.value.sessionIng === '进行中') {
+    return
+  }
   const codes = chats.value!.querySelectorAll('pre code')
   const command = chats.value!.querySelector('#chatCode')
   if (command) {
     return
   }
-  codes?.forEach(code => {
+  codes?.forEach(async (code) => {
     if ((code as any).__vue_app__) {
       return
     }
-    const cloneNode = code.cloneNode(true) as any
+    const cloneNode: HTMLElement = code.cloneNode(true) as any
     const app = createApp({
       render: () => <>
-        <chatCode node={cloneNode} onInitCmd={() => initCmd(cloneNode.innerText!)} />
+        <chatCode node={cloneNode} onExcute={() => exCmd(cloneNode, cloneNode.innerText!)} />
       </>
     })
     app.mount(code)
   })
 }
 const xtermRef = ref<HTMLElement | undefined>()
-const isWsOpen = ref<Function>()
-const initCmd = async (cmd: string) => {
+const isWsOpen = ref<((type: TermWsMapKey | undefined) => boolean)>()
+const exCmd = async (node: HTMLElement, cmd: string) => {
+  const type = node.offsetParent?.className.split('-').at(-1) as TermWsMapKey | undefined
   const { init, excute } = useCommand(xtermRef)
-  if (isWsOpen.value && isWsOpen.value!()) {
-    excute(cmd)
+  if (isWsOpen.value && isWsOpen.value!(type)) {
+    excute(cmd, type)
     return
   }
   IsTermOpen.value = true
   await nextTick()
   isWsOpen.value = init()
   const inter = setInterval(() => {
-    if (isWsOpen.value!()) {
-      excute(cmd + '\r\n')
+    if (isWsOpen.value!(type)) {
+      excute(cmd, type)
       clearInterval(inter)
     }
   }, 100)

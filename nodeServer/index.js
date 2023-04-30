@@ -98,7 +98,6 @@ app.ws("/cmd", (ws, req) => {
   });
   ws.on("open", (data) => { });
   term.on("data", function (data) {
-    console.log(data);
     ws.send(data);
   });
   ws.on("message", (data) => {
