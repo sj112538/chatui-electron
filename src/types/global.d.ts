@@ -21,7 +21,7 @@ declare global {
     type: 'completion' | 'chatCompletion' | 'image' | 'voice',
     source: string,
     image?: string,
-    files?: any
+    modelInfo?: ModelFormData
   }
   interface ModelPermission {
     id: string;
@@ -116,13 +116,15 @@ declare global {
     path: string,
     type: 'multiple' | 'single',
     models: Array<{
-      name: string,
-      path: string
+      modelName: string,
+      path: string,
+      cover: string
     }>,
-    name: string
+    modelsName: string
   }
   interface vits4SettingForm {
     modelData: ModelFormData[]
+    isOpen: boolean
   }
   interface StableDiffusion {
     location: string
@@ -266,6 +268,7 @@ declare global {
     创建时间: number
     修改时间: number
     类型: '文件' | '文件夹' | '磁盘'
+    data?: string
   }
   interface filesDiskInfo extends FileInfo, DiskInfo {
     select: Boolean

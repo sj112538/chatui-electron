@@ -1,5 +1,5 @@
 <template>
-  <template v-for="item in getCmdList().value">
+  <!-- <template v-for="item in getCmdList().value">
     <div :class="'cmdItem ' + item.type">
       {{ item.message }}
     </div>
@@ -7,13 +7,14 @@
   <div class="cmdInput">
     <el-input @input="cmdInputEvent" @keyup.enter.native="execute(cmdInputValue)" autosize :rows="8" type="textarea"
       ref="cmdInputRef" v-model="cmdInputValue"></el-input>
-  </div>
+  </div> -->
+  <div ref="termRef"></div>
   <div class="focusBlock" @click="cmdFocus"></div>
 </template>
 
 <script setup lang='ts'>
-import { useCmd } from '.';
-const { getCmdList, execute, cmdInputEvent, cmdInputValue } = useCmd()
+// import { useCmd } from '.';
+// const { getCmdList, execute, cmdInputEvent, cmdInputValue } = useCmd()
 const cmdInputRef = ref<HTMLElement>()
 watchEffect(() => {
   cmdInputRef.value?.focus()
@@ -22,6 +23,13 @@ const cmdFocus = (e: Event) => {
   e.stopPropagation()
   cmdInputRef.value?.focus()
 }
+//
+const termRef = ref()
+onMounted(async () => {
+  await nextTick()
+  const term = useCommand(termRef)
+  term.init()
+})
 </script>
 
 <style lang="scss" scoped>

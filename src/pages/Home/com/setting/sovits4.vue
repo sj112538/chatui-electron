@@ -1,6 +1,7 @@
 <template>
   <div :class="name">
     <el-dialog v-model="dialogVisible" :title="name + '设置'" width="80%" align-center>
+      <span>启动vits4</span><el-switch size="small" style="padding: 10px;" v-model="form.vits4.isOpen"></el-switch><br />
       <el-button type="primary" size="small" @click="addModel">新增模型</el-button>
       <div class="form">
         <el-auto-resizer>
@@ -28,7 +29,7 @@
             <file-manager :multiple="false" seleType='文件' v-model:路径="modelFormData.info" />
           </el-form-item>
           <el-form-item label="模型名称">
-            <el-input v-model="modelFormData.name"></el-input>
+            <el-input v-model="modelFormData.modelsName"></el-input>
           </el-form-item>
         </el-form>
         <el-button type='primary' @click="addModels" size="small">新增模型</el-button>
@@ -46,11 +47,11 @@
     <el-dialog v-model="modelsVisible" title="添加模型" width="80%" align-center>
       <el-form inline :modelItem="modelsForm" ref="modelForm">
         <el-form-item label="模型名称">
-          <el-input v-model="modelsForm.name"></el-input>
+          <el-input v-model="modelsForm.modelName"></el-input>
         </el-form-item>
         <el-form-item label="模型封面图片">
           <el-input v-model="modelsForm.cover"></el-input>
-          <file-manager :multiple="false" seleType='文件' v-model:路径="modelsForm.cover" />
+          <file-manager :multiple="false" seleType='文件' v-model:data="modelsForm.cover" />
         </el-form-item>
         <el-form-item label="模型位置">
           <el-input v-model="modelsForm.path"></el-input>
@@ -68,6 +69,7 @@
 <script setup lang='tsx'>
 import useForm from './hook/useForm';
 import { Column, ElButton, ElForm } from 'element-plus'
+import { Delete, Edit } from '@element-plus/icons-vue'
 const name = 'vits4'
 const form = settingStore().FormData
 const visible = ref<boolean>(false)
@@ -81,40 +83,46 @@ const columns: Column[] = [{
   key: 'index',
   width: 200,
   title: '序号',
-  cellRenderer: ({ rowIndex }) => <div style='width:100%;text-align:center'>{rowIndex + 1}</div>
+  cellRenderer: ({ rowIndex }) => <div>{rowIndex + 1}</div>
 }, {
   dataKey: 'type',
   key: 'type',
-  width: 300,
+  width: 200,
   title: '类型'
 }, {
   dataKey: 'info',
   key: 'info',
-  width: 300,
-  title: '模型信息文件位置',
-  cellRenderer: ({ rowData }) => <div style='width:100%;text-align:center'>{rowData.type === 'single' ? '-' : rowData.info}</div>
+  width: 200,
+  title: '模型信息文件位置'
 }, {
   dataKey: 'config',
   key: 'config',
-  width: 300,
+  width: 200,
   title: '模型配置文件位置'
 }, {
   dataKey: 'name',
   key: 'name',
-  width: 300,
+  width: 200,
   title: '模型名称'
 }, {
   dataKey: 'operate',
   key: 'operate',
-  width: 300,
-  title: '操作'
+  width: 200,
+  title: '操作',
+  cellRenderer: ({ rowIndex, rowData }) => <><ElButton onClick={() => {
+    form.vits4.modelData.splice(rowIndex, 1)
+  }} type='danger' size='small' icon={Delete}></ElButton>
+    <ElButton onClick={() => {
+      visible.value = true
+      modelFormData.value = rowData
+    }} type='primary' size='small' icon={Edit}></ElButton></>
 }]
 const modelFormData = ref<ModelFormData>({
   info: '',
   config: '',
   path: '',
   type: 'single',
-  name: '',
+  modelsName: '',
   models: []
 })
 const submitModel = () => {
@@ -148,9 +156,15 @@ const modelColumns: Column[] = [{
   width: 200,
   dataKey: 'operate',
   key: "operate",
-  cellRenderer: ({ rowIndex }: any) => {
+  cellRenderer: ({ rowIndex, rowData }: any) => {
     return (
-      <ElButton type='danger' onClick={() => deleModel(rowIndex)}>删除</ElButton>
+      <>
+        <ElButton type='danger' size='small' icon={Delete} onClick={() => deleModel(rowIndex)}></ElButton>
+        <ElButton type='primary' size='small' icon={Edit} onClick={() => {
+          modelsVisible.value = true
+          modelsForm.value = rowData
+        }}></ElButton>
+      </>
     )
   },
 }
@@ -158,11 +172,10 @@ const modelColumns: Column[] = [{
 const deleModel = (index: number) => {
   modelFormData.value.models.splice(index, 1)
 }
-
 const modelsVisible = ref<boolean>(false)
 const modelsForm = ref({
   path: '',
-  name: '',
+  modelName: '',
   cover: ''
 })
 const submitModels = () => {

@@ -8,10 +8,10 @@ const termWsMap = ref<TermWsMap | null>({
   command: null
 })
 const termList = ref<HTMLElement[]>([])
+let term = ref<Terminal>()
 export const useCommand = (terminal: Ref<HTMLElement | undefined>) => {
   const fitAddon = new FitAddon()
   let loading = ref(false)
-  let term = ref<Terminal>()
   const type = ref<TermWsMapKey>('command')
   const init = () => {
     loading.value = true

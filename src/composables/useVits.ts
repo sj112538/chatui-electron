@@ -2,37 +2,22 @@ import { formData } from '@/pages/Home/com/setting/hook/useForm';
 import useAiBase from './useAiBase'
 class useVits extends useAiBase {
   listModels = async (setData: any) => {
-    let files: any[] = []
-    let version = ''
-    const models: Model[] = []
-    if (formData.value.vits3.isOpen) {
-      version = 'vits3'
-      const res = await vits3Api.getModels(formData.value.vits3.modelPos)
-      files.push(res)
-    }
-    if (formData.value.vits4.isOpen) {
-      version = 'vits4'
-      const res = await vits4Api.getModels(formData.value.vits4.modelPos)
-      files.push(res)
-    }
-    let image = ''
-    files.forEach((file) => {
-      Object.keys(file).forEach((key) => {
-        file![key].image && Object.keys(file![key].image).forEach((key1) => {
-          image = file![key].image[key1]
-        })
-        file[key]['.pth'] && models.push({
-          id: key,
-          object: "model",
-          type: 'voice',
-          source: 'outline',
-          info: null,
-          owned_by: 'vits',
-          image,
-          files: file[key],
-          version: version
-        })
-      });
+    const models: any[] = []
+    settingStore().FormData.vits4.modelData.forEach((m) => {
+      const model = {
+        id: m.modelsName,
+        object: "model",
+        owned_by: "vits",
+        source: 'outline',
+        type: 'voice',
+        info: null,
+        image: m.models[0].cover,
+        version: 'vits4',
+        modelInfo: {
+          ...m
+        }
+      }
+      models.push(model)
     })
     return setData(models, 'model')
   };
@@ -51,12 +36,8 @@ class useVits extends useAiBase {
     }
   }
   setModel(Model: Model): void {
-    let modelPath: string
-    Object.keys(Model.files['.pth']).forEach((key) => {
-      modelPath = Model.files['.pth'][key]
-    })
-    Model.version === 'vits3' && vits3Api.checkModel(Model.files['.json']['config.json'], modelPath!)
-    Model.version === 'vits4' && vits4Api.checkModel(Model.files['.json']['config.json'], modelPath!, infoPath)
+    const info = Model.modelInfo
+    Model.version === 'vits4' && vits4Api.checkModel(info!.config, info!.models[0].path, info!.info!)
     nowVitsModel.value = Model
   }
   getModel() {

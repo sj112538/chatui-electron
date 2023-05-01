@@ -48,6 +48,10 @@ const props = defineProps({
     type: String,
     default: "",
   },
+  data: {
+    type: String,
+    default: "",
+  },
   type: {
     type: String,
     default: 'single'
@@ -61,7 +65,7 @@ const props = defineProps({
     default: '混合'
   }
 })
-const emit = defineEmits(['update:路径'])
+const emit = defineEmits(['update:路径', 'update:data'])
 const confim = () => {
   if (props.multiple) {
     emit('update:路径', selection.value.map((e) => {
@@ -70,6 +74,7 @@ const confim = () => {
   } else {
     emit('update:路径', selection.value[0].路径)
   }
+  emit('update:data',selection.value[0].data)
   visiable.value = false
 }
 const visiable = ref<boolean>(false)

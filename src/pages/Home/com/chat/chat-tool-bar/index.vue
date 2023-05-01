@@ -6,7 +6,7 @@
         <pre-text v-if="nowActive === 'textActive'" />
       </div>
       <div class="toolBox">
-        <!-- <div @click="active('cmdActive')" :class="cmdActive ? 'chat-tool active' : 'chat-tool'">
+        <div @click="active('cmdActive')" :class="cmdActive ? 'chat-tool active' : 'chat-tool'">
           <svg t="1680447339520" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
             p-id="2906" width="25" height="25">
             <path d="M917.504 835.584H106.496V188.416h810.496l0.512 647.168zM186.88 755.2h650.752v-486.4H186.88v486.4z"
@@ -15,8 +15,9 @@
               d="M343.04 648.704l-56.32-56.32 88.064-88.064L286.72 415.744l56.32-56.832 144.896 144.896L343.04 648.704z m163.84-63.488h230.4v79.872H506.88v-79.872z"
               fill="#2B85FB" p-id="2908"></path>
           </svg>
-        </div> -->
-        <div style="margin-top: 0.5px;" class="textList" @click="active('textActive')" :class="textActive ? 'textList active' : 'chat-tool'">
+        </div>
+        <div style="margin-top: 0.5px;" class="textList" @click="active('textActive')"
+          :class="textActive ? 'textList active' : 'chat-tool'">
           <svg data-v-b5f035e9="" t="1680784193588" class="icon" viewBox="0 0 1024 1024" version="1.1"
             xmlns="http://www.w3.org/2000/svg" p-id="1840" width="20" height="20">
             <path data-v-b5f035e9=""
@@ -58,7 +59,6 @@ const active = (name: string) => {
 .toolBoxContent {
   bottom: 100px;
   position: absolute;
-  padding: 10px;
   z-index: 2;
   width: 100%;
   background: #fff;
@@ -96,4 +96,5 @@ const active = (name: string) => {
   display: flex;
   align-items: center;
   cursor: pointer;
-}</style>
+}
+</style>

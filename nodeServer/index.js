@@ -56,27 +56,20 @@ app.post('/getfiles', async (req, res) => {
     for (const file of files) {
       const file_path = path.join(folder_path, file);
       const stat = await fs.stat(file_path);
-      if (stat.isDirectory()) {
-        const dir_info = {
-          '名称': file,
-          '路径': file_path,
-          '大小': stat.size,
-          '创建时间': stat.birthtime.toLocaleString(),
-          '修改时间': stat.mtime.toLocaleString(),
-          '类型': '文件夹'
-        };
-        result['data'].push(dir_info);
-      } else {
-        const file_info = {
-          '名称': file,
-          '路径': file_path,
-          '大小': stat.size,
-          '创建时间': stat.birthtime.toLocaleString(),
-          '修改时间': stat.mtime.toLocaleString(),
-          '类型': '文件'
-        };
-        result['data'].push(file_info);
+      const dir_info = {
+        '名称': file,
+        '路径': file_path,
+        '大小': stat.size,
+        '创建时间': stat.birthtime.toLocaleString(),
+        '修改时间': stat.mtime.toLocaleString(),
+        '类型': stat.isDirectory() ? '文件夹' : '文件'
+      };
+      const file_ext = path.extname(file).toLowerCase();
+      if (file_ext === '.jpg' || file_ext === '.png' || file_ext === '.gif') { // 如果是图片文件
+        const data = await fs.readFile(file_path, { encoding: 'base64' }); // 读取图片数据并转换为base64格式
+        dir_info['data'] = data; // 将base64格式的图片数据保存到dir_info中
       }
+      result['data'].push(dir_info);
     }
     result['msg'] = '获取成功';
     result['status'] = 200
