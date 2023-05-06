@@ -35,7 +35,7 @@ export const vits3Api = new class vits3Api extends Http {
   }
   confirm = () => {
     return this.get('get', {
-      allUrl: `http://127.0.0.1:${FormStore().FormData.Vits3.location}/confirm`
+      allUrl: `http://127.0.0.1:${FormStore().FormData.vits3.location}/confirm`
     })
   }
 }
