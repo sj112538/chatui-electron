@@ -166,7 +166,7 @@
   },
   "vits4": {
     "formOptions": {
-      "语言": {
+      "language": {
         "info": "选择语言",
         "label": "语言",
         "type": "select",
@@ -185,19 +185,29 @@
           }
         ]
       },
-      "模型信息位置": {
-        "info": "info.json文件的位置，当一个config.json对应多个模型文件的时候需要设置该选项",
-        "label": "模型信息位置",
-        "type": "input-text-file-select",
-        "multiple": false,
-        "seleType": "文件"
+      "noise_scale": {
+        "type": "input-number",
+        "rules": {
+          "min": 0.1,
+          "max": 1
+        }
       },
-      "模型配置文件位置": {
-        "info": "当前模型config.json文件的位置，当配置为多模型时此项必须填写",
-        "label": "模型信息位置",
-        "type": "input-text-file-select",
-        "multiple": false,
-        "seleType": "文件"
+      "noise_scale_w": {
+        "type": "input-number",
+        "rules": {
+          "min": 0.1,
+          "max": 1
+        }
+      },
+      "length_scale": {
+        "type": "input-number",
+        "rules": {
+          "min": 0.1,
+          "max": 2
+        }
+      },
+      "speakerId": {
+        "type": "input-number"
       }
     }
   }

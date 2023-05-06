@@ -1,28 +1,41 @@
-import { formData } from '@/pages/Home/com/setting/hook/useForm'
 import Http from '../http'
-
 export const vits4Api = new class vits3Api extends Http {
-  generate = async (options: Vits4, speakerName: string, controller: AbortController) => {
+  generate = async (options: Vits4, controller: AbortController) => {
     return this.post('post', {
-      allUrl: `http://${formData.value['vits4'].location}/run/tts-${speakerName}`, body: {
-        data: options
+      allUrl: `http://127.0.0.1:${FormStore().FormData.vits4.location}/generate`, body: {
+        ...options, modelName: useVits.getModel().value?.modelInfo?.modelsName
       },
       signal: controller.signal
     })
   }
   getModels = async (folderPath: string) => {
     return this.get('get', {
-      allUrl: `http://${formData.value['vits4'].location}/getModels/${folderPath}`
+      allUrl: `http://127.0.0.1:${FormStore().FormData.vits4.location}/getModels/${folderPath}`
     })
   }
-  checkModel = (configPath: string, modelPath: string, infoPath: string) => {
+  checkModels = (configPath: string, modelPath: string, infoPath: string) => {
     return this.post('post', {
-      allUrl: `http://${formData.value['vits4'].location}/switchs`, body: {
+      allUrl: `http://127.0.0.1:${FormStore().FormData.vits4.location}/switchs`, body: {
         device: 'cuda',
         configPath,
         modelPath,
         infoPath
       },
+    })
+  }
+  checkModel = (configPath: string, modelPath: string, name: string) => {
+    return this.post('post', {
+      allUrl: `http://127.0.0.1:${FormStore().FormData.vits4.location}/switch`, body: {
+        device: 'cuda',
+        configPath,
+        modelPath,
+        name
+      },
+    })
+  }
+  confirm = () => {
+    return this.get('get', {
+      allUrl: `http://127.0.0.1:${FormStore().FormData.vits4.location}/confirm`
     })
   }
 }

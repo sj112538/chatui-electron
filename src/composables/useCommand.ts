@@ -7,9 +7,8 @@ const termWsMap = ref<TermWsMap | null>({
   python: null,
   command: null
 })
-const termList = ref<HTMLElement[]>([])
 let term = ref<Terminal>()
-export const useCommand = (terminal: Ref<HTMLElement | undefined>) => {
+export const useCommand = (terminal?: Ref<HTMLElement | undefined>) => {
   const fitAddon = new FitAddon()
   let loading = ref(false)
   const type = ref<TermWsMapKey>('command')
@@ -38,11 +37,13 @@ export const useCommand = (terminal: Ref<HTMLElement | undefined>) => {
       tabStopWidth: 4,
       convertEol: true
     })
-    if (termList.value.some(e => e === terminal.value)) {
+    if (!term.value) {
       return
     }
-    term.value!.open(terminal.value!)
-    termList.value.push(terminal.value!)
+    if (!(terminal && terminal!.value!)) {
+      return
+    }
+    term.value!.open(terminal!.value!)
     term.value!.loadAddon(fitAddon)
     // 不能初始化的时候fit,需要等terminal准备就绪,可以设置延时操作
     setTimeout(() => {
@@ -99,7 +100,7 @@ export const useCommand = (terminal: Ref<HTMLElement | undefined>) => {
   }
   // 是否连接中0 1 2 3 
   const isWsOpen = (type: TermWsMapKey | undefined) => {
-    if (!type) {
+    if (type !== 'command' && type !== 'python') {
       type = 'command'
     }
     const readyState = termWsMap.value![type] && termWsMap.value![type]!.readyState
@@ -112,20 +113,35 @@ export const useCommand = (terminal: Ref<HTMLElement | undefined>) => {
   const onTerminalResize = () => {
     window.addEventListener("resize", onResize)
   }
-  const excute = (command: string, type?: TermWsMapKey) => {
-    if (!type) {
+  const excute = async (command: string | string[], type?: TermWsMapKey, nonRealTime?: boolean) => {
+    if (nonRealTime) {
+      term.value?.write(command as string)
+      const data = await localApi.excuteCmd(command as string, type!)
+      // term.value?.write(data)
+      return data
+    }
+    let cmd = command as string[]
+    if (!Array.isArray(command)) {
+      cmd = [command]
+    }
+    if (type !== 'command' && type !== 'python') {
       type = 'command'
     }
     if (isWsOpen(type!)) {
-      termWsMap.value![type!]!.send(
-        JSON.stringify({
-          Op: 'stdin',
-          Data: command,
-        })
-      )
+      cmd.forEach((c) => {
+        if (type === 'python') {
+          term.value?.write(c.trim() + '\r\n')
+        }
+        termWsMap.value![type!]!.send(
+          JSON.stringify({
+            Op: 'stdin',
+            Data: c.trim() + '\r\n',
+          })
+        )
+      })
     }
   }
   return {
-    init, excute
+    init, excute, isWsOpen
   }
 }

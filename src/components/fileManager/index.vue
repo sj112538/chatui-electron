@@ -97,7 +97,7 @@ const dataLink = ref<DataLinkNode>({
 const initData = async () => {
   try {
     loading.value = true
-    const { data, status, msg } = await filesApi.getDiskInfo()
+    const { data, status, msg } = await localApi.getDiskInfo()
     if (!errHandler(status, msg)) {
       return
     }
@@ -118,7 +118,7 @@ const enterDir = async (rowData: filesDiskInfo, key: string) => {
   if (doubleClick.value) {
     try {
       loading.value = true
-      const { data, status, msg } = await filesApi.getFiles(rowData.路径)
+      const { data, status, msg } = await localApi.getFiles(rowData.路径)
       nowPos.value = rowData.路径
       loading.value = false
       if (!errHandler(status, msg)) {

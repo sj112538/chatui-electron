@@ -41,18 +41,12 @@
 </template>
 
 <script setup lang='ts'>
-import { useCmd } from './tools/cmd';
+import { useTools } from '.';
+import { useCmd } from './tools/cmd/index'
 import { usePreText } from './tools/preText';
 const { cmdActive, paramActive } = useCmd()
 const { textActive } = usePreText()
-const nowActive = ref<string>('')
-const active = (name: string) => {
-  if (nowActive.value !== name) {
-    nowActive.value = name
-  } else {
-    nowActive.value = ''
-  }
-}
+const { active, nowActive } = useTools()
 </script>
 
 <style lang="scss" scoped>

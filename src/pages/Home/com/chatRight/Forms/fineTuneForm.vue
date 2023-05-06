@@ -62,6 +62,9 @@ defineExpose({
 </script>
 <style lang="scss">
 .chatForm {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
   .label {
     width: 235px;
     line-height: 35px;

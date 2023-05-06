@@ -102,13 +102,13 @@ declare global {
   interface chatRightFormData {
     chatCompletion: Partial<CreateChatCompletionRequest>
     completion: Partial<CreateCompletionRequest>
-    'vits3': any
+    'vits3': vits3
     'openAi微调': CreateFineTuneRequest
-    'vits4': any
+    'vits4': Vits4
     [x: string]: Object
   }
   interface settingFormData {
-    'vits4': vits4SettingForm
+    'vits3': vits4SettingForm
   }
   interface ModelFormData {
     info?: string,
@@ -237,14 +237,16 @@ declare global {
     controller: AbortController,
     value: string
   }
-  type Vits4 = [
-    text: string,
+  interface Vits4 {
+    text?: string,
     language: string,
     noise_scale: number,
     noise_scale_w: number,
     length_scale: number,
-    symbol_input: boolean
-  ]
+    symbol_input: boolean,
+    location: string
+    speakerId?: number
+  }
   interface preTextList {
     title: string,
     chatList: Partial<chatCompletion>[],

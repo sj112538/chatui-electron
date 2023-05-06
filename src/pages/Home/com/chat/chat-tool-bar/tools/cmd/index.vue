@@ -9,27 +9,28 @@
       ref="cmdInputRef" v-model="cmdInputValue"></el-input>
   </div> -->
   <div ref="termRef"></div>
-  <div class="focusBlock" @click="cmdFocus"></div>
+  <!-- <div class="focusBlock" @click="cmdFocus"></div> -->
 </template>
 
 <script setup lang='ts'>
 // import { useCmd } from '.';
 // const { getCmdList, execute, cmdInputEvent, cmdInputValue } = useCmd()
-const cmdInputRef = ref<HTMLElement>()
-watchEffect(() => {
-  cmdInputRef.value?.focus()
-})
-const cmdFocus = (e: Event) => {
-  e.stopPropagation()
-  cmdInputRef.value?.focus()
-}
+// const cmdInputRef = ref<HTMLElement>()
+// watchEffect(() => {
+//   cmdInputRef.value?.focus()
+// })
+// const cmdFocus = (e: Event) => {
+//   e.stopPropagation()
+//   cmdInputRef.value?.focus()
+// }
 //
 const termRef = ref()
+const term = ref()
 onMounted(async () => {
   await nextTick()
-  const term = useCommand(termRef)
-  term.init()
-})
+  term.value = useCommand(termRef)
+  term.value.init()
+}) 
 </script>
 
 <style lang="scss" scoped>

@@ -1,9 +1,10 @@
 import { formData } from '@/pages/Home/com/setting/hook/useForm';
 import useAiBase from './useAiBase'
+export const vits3_is_open = ref<boolean>(false)
 class useVits extends useAiBase {
   listModels = async (setData: any) => {
     const models: any[] = []
-    settingStore().FormData.vits4.modelData.forEach((m) => {
+    settingStore().FormData.vits3.modelData.forEach((m) => {
       const model = {
         id: m.modelsName,
         object: "model",
@@ -35,9 +36,11 @@ class useVits extends useAiBase {
       console.log(err);
     }
   }
-  setModel(Model: Model): void {
+  async setModel(Model: Model) {
     const info = Model.modelInfo
-    Model.version === 'vits4' && vits4Api.checkModel(info!.config, info!.models[0].path, info!.info!)
+    if (info?.type === 'single' && Model.version === 'vits4') {
+      const { data } = await vits4Api.checkModel(info.config, info.models[0].path, info.modelsName)
+    }
     nowVitsModel.value = Model
   }
   getModel() {
@@ -96,8 +99,12 @@ const voiceHanlder = async (sentences: string[]) => {
           value
         })
       }
-      if (formData.value.vits4.isOpen && nowVitsModel.value?.version === 'vits4') {
-        const { data } = await vits4Api.generate([matche, 'Japanese', 0.6, 0.668, 1, false], 'Sorasaki Hina', controller)
+      if (vits3_is_open.value && nowVitsModel.value?.version === 'vits4') {
+        const form = FormStore().FormData.vits4
+        const { data } = await vits4Api.generate({
+          text: matche,
+          ...form
+        }, controller)
         voiceStock.value.push({
           data: data[1],
           index,

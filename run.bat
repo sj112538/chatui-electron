@@ -65,6 +65,7 @@ if not defined found_vite_python_port (
     echo VITE_PYTHON_PORT=!vite_python_port! >> .env.development
 )
 
-start /B "" cmd /c "npx vite --port=%port1%" 
-start /B "" cmd /c "cd nodeServer & nodemon index.js %port2%"
+start /B "" cmd /c "npx vite --port=%port1%"
+start /B "" cmd /c "cd nodeServer & nodemon index.js %port2%" 
 start /B "" cmd /c "cd server & python api.py %port3%"
+pause

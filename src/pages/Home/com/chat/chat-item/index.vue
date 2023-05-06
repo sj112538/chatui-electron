@@ -21,12 +21,12 @@
           <span style="margin-right: 5px;">跳过</span><el-switch v-model="textItem.isSkip" size="small" />
         </div>
         <el-divider direction="vertical"
-          v-if="formData?.vits3?.isOpen && textItem.role === 'assistant' && (textItem as any).isHover && textItem.sessionIng !== '进行中'" />
+          v-if="vitsIsOpen && textItem.role === 'assistant' && (textItem as any).isHover && textItem.sessionIng !== '进行中'" />
         <div v-if="textItem.role === 'assistant' && textItem.sessionIng !== '进行中' && (textItem as any).isHover"
           class="pointer" @click="generateVoice">
           <el-icon>
             <el-icon>
-              <Headset v-if="formData?.vits3?.isOpen" />
+              <Headset v-if="vitsIsOpen" />
             </el-icon>
           </el-icon>
         </div>
@@ -99,7 +99,6 @@
 import { nowSessionName, saveSession, sessionMap } from '../../chatLeft';
 import { Edit, CopyDocument, Close, Check, Refresh, Headset, Bottom } from '@element-plus/icons-vue'
 import { VMdPreview, VMdEditor } from '@/components/index'
-import { formData } from '../../setting/hook/useForm';
 const roleList = [{
   label: '用户',
   value: 'user'
@@ -121,6 +120,7 @@ const props = defineProps({
     required: true
   }
 })
+const vitsIsOpen = ref(vits3_is_open)
 const currentPage = ref<number>(1)
 const textItem = ref(props.item)
 const { stop } = useAiHandler()

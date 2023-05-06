@@ -1,6 +1,6 @@
 import { saveSession, sessionMap } from "./pages/Home/com/chatLeft"
 import { formData } from "./pages/Home/com/setting/hook/useForm"
-export const init = () => {
+export const init = async () => {
   FormStore().FormInfoInit()
   useAiHandler().ModelInfoInit()
   if (nowModel.value) {
@@ -8,6 +8,10 @@ export const init = () => {
   }
   formData.value.openAi?.isOpen && useOpenAi.getFile()
   formData.value.openAi?.isOpen && useOpenAi.listfineTunes()
+  const data = await vits4Api.confirm()
+  if (data) {
+    vits3_is_open.value = true
+  }
   sessionIngInit()
   saveSession()
 }

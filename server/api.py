@@ -5,9 +5,14 @@ import uvicorn
 from fastapi.middleware.cors import CORSMiddleware
 import sys
 from pydantic import BaseModel
-
-class Code(BaseModel):
-    code: str
+import vits4.api as vits4
+from enum import Enum
+class CommandType(str, Enum):
+    PYTHON = 'python'
+    SYSTEM = 'command'
+class CMD(BaseModel):
+    command: str
+    type:CommandType
 
 app = FastAPI()
 
@@ -18,9 +23,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-global_vars = {}
-local_vars = {}
 
 @app.websocket("/execute")
 async def websocket_endpoint(websocket: WebSocket):
@@ -43,6 +45,35 @@ async def websocket_endpoint(websocket: WebSocket):
                 await websocket.send_text(str(e))
     except WebSocketDisconnect as e:
         await websocket.send_text(str(e))
+        
+@app.post("/excuteNonRealTime")
+def executeNonRealTime(cmd: CMD):
+    try:
+        command = cmd.command
+        type = cmd.type
+        if type == CommandType.PYTHON:
+          proc = subprocess.Popen(['python', '-c', command],
+                                  stdout=subprocess.PIPE,
+                                  stderr=subprocess.PIPE,
+                                  universal_newlines=True)
+          stdout, stderr = proc.communicate()
+          return {"result": stdout.strip() }
+        elif type == CommandType.SYSTEM:
+            proc = subprocess.Popen(command, shell=True,
+                                    stdout=subprocess.PIPE,
+                                    stderr=subprocess.PIPE,
+                                    universal_newlines=True)
+            stdout, stderr = proc.communicate()
+            if stdout:
+                return {"result": stdout}
+            if stderr:
+                return {"error": stderr}
+        else:
+            return {"error": f'Unrecognized command type: {type}'}
+    except Exception as e:
+        return {"error": str(e)}
+
+
 if __name__ == "__main__":
     port = int(sys.argv[1])
     uvicorn.run(app, host="127.0.0.1", port=port)
