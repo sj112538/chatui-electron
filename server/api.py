@@ -5,7 +5,7 @@ import uvicorn
 from fastapi.middleware.cors import CORSMiddleware
 import sys
 from pydantic import BaseModel
-import vits4.api as vits4
+import vits3.api as vits3
 from enum import Enum
 class CommandType(str, Enum):
     PYTHON = 'python'

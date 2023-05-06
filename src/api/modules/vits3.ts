@@ -1,8 +1,8 @@
 import Http from '../http'
-export const vits4Api = new class vits3Api extends Http {
-  generate = async (options: Vits4, controller: AbortController) => {
+export const vits3Api = new class vits3Api extends Http {
+  generate = async (options: Vits3, controller: AbortController) => {
     return this.post('post', {
-      allUrl: `http://127.0.0.1:${FormStore().FormData.vits4.location}/generate`, body: {
+      allUrl: `http://127.0.0.1:${FormStore().FormData.vits3.location}/generate`, body: {
         ...options, modelName: useVits.getModel().value?.modelInfo?.modelsName
       },
       signal: controller.signal
@@ -10,12 +10,12 @@ export const vits4Api = new class vits3Api extends Http {
   }
   getModels = async (folderPath: string) => {
     return this.get('get', {
-      allUrl: `http://127.0.0.1:${FormStore().FormData.vits4.location}/getModels/${folderPath}`
+      allUrl: `http://127.0.0.1:${FormStore().FormData.vits3.location}/getModels/${folderPath}`
     })
   }
   checkModels = (configPath: string, modelPath: string, infoPath: string) => {
     return this.post('post', {
-      allUrl: `http://127.0.0.1:${FormStore().FormData.vits4.location}/switchs`, body: {
+      allUrl: `http://127.0.0.1:${FormStore().FormData.vits3.location}/switchs`, body: {
         device: 'cuda',
         configPath,
         modelPath,
@@ -25,7 +25,7 @@ export const vits4Api = new class vits3Api extends Http {
   }
   checkModel = (configPath: string, modelPath: string, name: string) => {
     return this.post('post', {
-      allUrl: `http://127.0.0.1:${FormStore().FormData.vits4.location}/switch`, body: {
+      allUrl: `http://127.0.0.1:${FormStore().FormData.vits3.location}/switch`, body: {
         device: 'cuda',
         configPath,
         modelPath,
@@ -35,7 +35,7 @@ export const vits4Api = new class vits3Api extends Http {
   }
   confirm = () => {
     return this.get('get', {
-      allUrl: `http://127.0.0.1:${FormStore().FormData.vits4.location}/confirm`
+      allUrl: `http://127.0.0.1:${FormStore().FormData.Vits3.location}/confirm`
     })
   }
 }

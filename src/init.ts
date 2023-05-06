@@ -8,7 +8,7 @@ export const init = async () => {
   }
   formData.value.openAi?.isOpen && useOpenAi.getFile()
   formData.value.openAi?.isOpen && useOpenAi.listfineTunes()
-  const data = await vits4Api.confirm()
+  const data = await vits3Api.confirm()
   if (data) {
     vits3_is_open.value = true
   }

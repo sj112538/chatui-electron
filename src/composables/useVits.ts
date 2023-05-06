@@ -13,7 +13,7 @@ class useVits extends useAiBase {
         type: 'voice',
         info: null,
         image: m.models[0].cover,
-        version: 'vits4',
+        version: 'vits3',
         modelInfo: {
           ...m
         }
@@ -38,8 +38,8 @@ class useVits extends useAiBase {
   }
   async setModel(Model: Model) {
     const info = Model.modelInfo
-    if (info?.type === 'single' && Model.version === 'vits4') {
-      const { data } = await vits4Api.checkModel(info.config, info.models[0].path, info.modelsName)
+    if (info?.type === 'single' && Model.version === 'vits3') {
+      const { data } = await vits3Api.checkModel(info.config, info.models[0].path, info.modelsName)
     }
     nowVitsModel.value = Model
   }
@@ -62,7 +62,7 @@ watch(() => voiceStock.value, async () => {
   while (voiceStock.value.length !== 0) {
     let voice = null
     let audios = null
-    if (nowVitsModel.value?.version === 'vits4') {
+    if (nowVitsModel.value?.version === 'vits3') {
       voice = voiceStock.value.shift()
       audios = voice!.data! as unknown as string
     }
@@ -90,8 +90,8 @@ const voiceHanlder = async (sentences: string[]) => {
     if (value) {
       const controller = new AbortController()
       const matche = value?.match(/[\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FCFゃゅょ。、々〇〻\u3400-\u4DBF\u4E00-\u9FFFA-Za-z，、！？：；——～｜《》【】（）{}『』「」『』“”‘’]/g)!.join('')
-      if (formData.value.vits3.isOpen && nowVitsModel.value?.version === 'vits3') {
-        const { data } = await vits3Api.generate(matche, controller)
+      if (formData.value.vits4.isOpen && nowVitsModel.value?.version === 'vits4') {
+        const { data } = await vits4Api.generate(matche, controller)
         voiceStock.value.push({
           data,
           index,
@@ -99,9 +99,9 @@ const voiceHanlder = async (sentences: string[]) => {
           value
         })
       }
-      if (vits3_is_open.value && nowVitsModel.value?.version === 'vits4') {
-        const form = FormStore().FormData.vits4
-        const { data } = await vits4Api.generate({
+      if (vits3_is_open.value && nowVitsModel.value?.version === 'vits3') {
+        const form = FormStore().FormData.vits3
+        const { data } = await vits3Api.generate({
           text: matche,
           ...form
         }, controller)

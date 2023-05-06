@@ -102,13 +102,13 @@ declare global {
   interface chatRightFormData {
     chatCompletion: Partial<CreateChatCompletionRequest>
     completion: Partial<CreateCompletionRequest>
-    'vits3': vits3
+    'vits3': Vits3
     'openAi微调': CreateFineTuneRequest
     'vits4': Vits4
     [x: string]: Object
   }
   interface settingFormData {
-    'vits3': vits4SettingForm
+    'vits3': vits3SettingForm
   }
   interface ModelFormData {
     info?: string,
@@ -122,7 +122,7 @@ declare global {
     }>,
     modelsName: string
   }
-  interface vits4SettingForm {
+  interface vits3SettingForm {
     modelData: ModelFormData[]
     isOpen: boolean
   }
@@ -237,7 +237,7 @@ declare global {
     controller: AbortController,
     value: string
   }
-  interface Vits4 {
+  interface Vits3 {
     text?: string,
     language: string,
     noise_scale: number,

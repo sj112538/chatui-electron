@@ -76,6 +76,7 @@ declare module '@vue/runtime-core' {
     'Sovits3.0Form': typeof import('./../pages/Home/com/chatRight/Forms/sovits3.0Form.vue')['default']
     Sovits3Form: typeof import('./../pages/Home/com/chatRight/Forms/sovits3Form.vue')['default']
     Sovits4: typeof import('./../pages/Home/com/setting/sovits4.vue')['default']
+    Sovits43Form: typeof import('./../pages/Home/com/chatRight/Forms/sovits43Form.vue')['default']
     Sovits4Form: typeof import('./../pages/Home/com/chatRight/Forms/sovits4Form.vue')['default']
     StableDiffusion: typeof import('./../pages/Home/com/setting/stableDiffusion.vue')['default']
     Test: typeof import('./../pages/Home/com/test/index.vue')['default']

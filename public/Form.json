@@ -142,7 +142,7 @@
       }
     }
   },
-  "vits3": {
+  "vits4": {
     "formOptions": {
       "speakerId": {
         "info": "一个模型可以有多种演讲人，输入演讲人ID",
@@ -164,7 +164,7 @@
       }
     }
   },
-  "vits4": {
+  "vits3": {
     "formOptions": {
       "language": {
         "info": "选择语言",
