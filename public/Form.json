@@ -2,7 +2,7 @@
   "chatCompletion": {
     "formOptions": {
       "temperature": {
-        "info": "控制生成文本的“创造力”，该参数较高时生成的文本可能更加奇特，较低时则更加传统。取值范围为0到2。",
+        "info": "控制生成文本的"创造力"，该参数较高时生成的文本可能更加奇特，较低时则更加传统。取值范围为0到2。",
         "label": "Temperature",
         "type": "input-number",
         "rules": {
@@ -11,7 +11,7 @@
         }
       },
       "top_p": {
-        "info": "控制生成文本的“保守度”，该参数较高时生成的文本可能更加传统、固定，较低时候则更加自由、随机。取值范围为0到1之间的小数。",
+        "info": "控制生成文本的"保守度"，该参数较高时生成的文本可能更加传统、固定，较低时候则更加自由、随机。取值范围为0到1之间的小数。",
         "label": "Top P",
         "type": "input-number",
         "rules": {
@@ -145,22 +145,102 @@
   "vits4": {
     "formOptions": {
       "speakerId": {
-        "info": "一个模型可以有多种演讲人，输入演讲人ID",
-        "label": "speakerId",
+        "type": "custom"
+      },
+      "auto_f0": {
+        "info": "是否开启自动 F0 预测",
+        "label": "Auto F0",
+        "type": "checkbox",
+        "required": false,
+        "default": false
+      },
+      "F0_mean_pooling": {
+        "info": "是否开启 F0 均值池化",
+        "label": "F0 Mean Pooling",
+        "type": "checkbox",
+        "required": false,
+        "default": false
+      },
+      "vc_transform": {
+        "info": "用于处理发音不同的单词的方法, 值为整数，可以是正负数，代表半音数量。升高八度是12",
+        "label": "VC Transform",
+        "type": "input-number",
+        "required": false
+      },
+      "cluster_ratio": {
+        "info": "将帧向量聚类时的比率，范围为 0 到 1 之间的浮点数",
+        "label": "Cluster Ratio",
+        "type": "input-number",
+        "required": false
+      },
+      "slice_db": {
+        "info": "在语音片段分割中用于调整音量的阈值，通常为负数",
+        "label": "Slice DB",
         "type": "input-number",
         "required": false,
-        "rules": {
-          "min": 0
-        }
+        "default": -40
       },
-      "emotion": {
-        "info": "情感ID",
-        "label": "emotion",
-        "type": "input-text",
+      "noise_scale": {
+        "info": "用于添加噪音的比例，值为浮点数",
+        "label": "Noise Scale",
+        "type": "input-number",
         "required": false,
-        "rules": {
-          "min": 0
-        }
+        "default": 0.4
+      },
+      "pad_seconds": {
+        "info": "在语音的开始和结尾填充的秒数",
+        "label": "Pad Seconds",
+        "type": "input-number",
+        "required": false,
+        "default": 0.5
+      },
+      "cl_num": {
+        "info": "音频自动切片的长度，单位为秒(s), 如果不需要切片则设置为 0",
+        "label": "Cluster Number",
+        "type": "input-number",
+        "required": false,
+        "default": 0
+      },
+      "lg_num": {
+        "info": "两端音频切片的交叉淡入长度，如果自动切片后出现人声不连贯可调整该数值，如果连贯则使用默认值 0，单位为秒(s)",
+        "label": "Local Generated Number",
+        "type": "input-number",
+        "required": false,
+        "default": 0
+      },
+      "lgr_num": {
+        "info": "自动音频切片后，需要舍弃每段切片的头尾。该参数设置交叉长度保留的比例，范围0-1,左开右闭",
+        "label": "Local Generator Number",
+        "type": "input-number",
+        "required": false,
+        "default": 0.75
+      },
+      "enhancer_adaptive_key": {
+        "info": "语音增强的密钥，可以适应更高的音域。值为整数，单位为半音数，默认为 0",
+        "label": "Enhancer Adaptive Key",
+        "type": "input-number",
+        "required": false,
+        "default": 0
+      },
+      "cr_threshold": {
+        "info": "F0 均值池化过滤阈值，数值范围从 0 到 1，降低该值可减少跑调概率，但会增加哑音",
+        "label": "CR Threshold",
+        "type": "input-number",
+        "required": false,
+        "default": 0.05
+      },
+      "tts_rate": {
+        "info": "语音合成的速率，一般情况下，推荐使用默认值 1.0。较小的值会使语音变慢，较大的值会使语音变快。",
+        "label": "TTS Rate",
+        "type": "input-number",
+        "required": false,
+        "default": 1.0
+      },
+      "tts_voice": {
+        "info": "语音合成的声音，可以是不同的选项",
+        "label": "TTS Voice",
+        "type": "select",
+        "required": false
       }
     }
   },

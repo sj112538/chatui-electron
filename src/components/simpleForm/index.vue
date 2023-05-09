@@ -12,27 +12,32 @@
             </template>
           </el-popover>
         </template>
-        <el-form-item v-if="value.type === 'input-number'" :rules="value.rules">
-          <el-input-number :min="+value.rules?.min!" :max="+value.rules?.max!"
-            v-model="formDataVar[key]"></el-input-number>
+        <el-form-item v-if="value.type === 'custom'" :rules="value.rules">
+          <slot v-if="$slots[key + 'Body']" :option="{ value, key, formDataVar }" :name="key + 'Body'" />
         </el-form-item>
-        <el-form-item v-if="value.type === 'input-text'" :rules="value.rules">
-          <el-input v-model="formDataVar[key]"></el-input>
-        </el-form-item>
-        <el-form-item v-if="value.type === 'input-text-file-select'" :rules="value.rules">
-          <el-input v-model="formDataVar[key]"></el-input>
-          <file-manager :multiple="Boolean(value.multiple)" :seleType="value.seleType" v-model:路径="formDataVar[key]" />
-        </el-form-item>
-        <el-form-item v-if="value.type === 'checkbox'" :rules="value.rules">
-          <el-switch v-model="formDataVar[key]" :active-value="true" :inactive-value="false">
-          </el-switch>
-        </el-form-item>
-        <el-form-item v-if="value.type === 'select'" :rules="value.rules">
-          <el-select clearable v-model="formDataVar[key]" :placeholder="'请选择' + key">
-            <el-option v-for="item in value.select" :key="item.value" :label="item.label" :value="item.value">
-            </el-option>
-          </el-select>
-        </el-form-item>
+        <template v-else>
+          <el-form-item v-if="value.type === 'input-number'" :rules="value.rules">
+            <el-input-number :min="+value.rules?.min!" :max="+value.rules?.max!"
+              v-model="formDataVar[key]"></el-input-number>
+          </el-form-item>
+          <el-form-item v-if="value.type === 'input-text'" :rules="value.rules">
+            <el-input v-model="formDataVar[key]"></el-input>
+          </el-form-item>
+          <el-form-item v-if="value.type === 'input-text-file-select'" :rules="value.rules">
+            <el-input v-model="formDataVar[key]"></el-input>
+            <file-manager :multiple="Boolean(value.multiple)" :seleType="value.seleType" v-model:路径="formDataVar[key]" />
+          </el-form-item>
+          <el-form-item v-if="value.type === 'checkbox'" :rules="value.rules">
+            <el-switch v-model="formDataVar[key]" :active-value="true" :inactive-value="false">
+            </el-switch>
+          </el-form-item>
+          <el-form-item v-if="value.type === 'select'" :rules="value.rules">
+            <el-select clearable v-model="formDataVar[key]" :placeholder="'请选择' + key">
+              <el-option v-for="item in value.select" :key="item.value" :label="item.label" :value="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </template>
       </div>
     </template>
   </el-form>

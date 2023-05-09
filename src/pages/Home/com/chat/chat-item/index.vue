@@ -120,7 +120,7 @@ const props = defineProps({
     required: true
   }
 })
-const vitsIsOpen = ref(vits3_is_open)
+const vitsIsOpen = ref(vits4_is_open)
 const currentPage = ref<number>(1)
 const textItem = ref(props.item)
 const { stop } = useAiHandler()

@@ -7,6 +7,7 @@ declare global {
     VITE_ENV: string
     VITE_OSS: string
     VITE_OPENAI: string
+    VITE_CHATGLM: string
     VITE_API_PORT: number
     VITE_PYTHON_PORT: number
   }
@@ -109,6 +110,7 @@ declare global {
   }
   interface settingFormData {
     'vits3': vits3SettingForm
+    'vits4': vits4SettingForm
   }
   interface ModelFormData {
     info?: string,
@@ -118,11 +120,16 @@ declare global {
     models: Array<{
       modelName: string,
       path: string,
-      cover: string
+      cover: string,
+      clusterModelPath: string
     }>,
     modelsName: string
   }
   interface vits3SettingForm {
+    modelData: ModelFormData[]
+    isOpen: boolean
+  }
+  interface vits4SettingForm {
     modelData: ModelFormData[]
     isOpen: boolean
   }
@@ -184,7 +191,7 @@ declare global {
     }
   }
   interface formOption {
-    type: 'input-number' | 'input-text' | 'checkbox' | 'select' | 'input-text-file-select',
+    type: 'input-number' | 'input-text' | 'checkbox' | 'select' | 'input-text-file-select' | 'custom',
     label: String,
     min: number,
     max: mumber,
@@ -236,6 +243,17 @@ declare global {
     index: number,
     controller: AbortController,
     value: string
+  }
+  interface Vits4 {
+    text2tts?: string,
+    language: string,
+    noise_scale: number,
+    noise_scale_w: number,
+    length_scale: number,
+    symbol_input: boolean,
+    location: string
+    speakerId?: number
+    spks?: string[]
   }
   interface Vits3 {
     text?: string,

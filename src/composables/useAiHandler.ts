@@ -6,7 +6,7 @@ class AiHandler extends useAiBase {
   listModels = async (setData: any) => {
     formData.value.openAi?.isOpen && useOpenAi.listModels(setData)
     formData.value.stableDiffusion?.isOpen && useStableDiffion.listModels(setData);
-    if (settingStore().FormData.vits3.isOpen || settingStore().FormData.vits3.isOpen) {
+    if (settingStore().FormData.vits3?.isOpen || settingStore().FormData.vits4?.isOpen) {
       useVits.listModels(setData)
     }
   }

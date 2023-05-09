@@ -1,5 +1,5 @@
 import Http from '../http'
-export const vits4Api = new class vits3Api extends Http {
+export const vits4Api = new class vits4Api extends Http {
   generate = async (options: Vits4, controller: AbortController) => {
     return this.post('post', {
       allUrl: `http://127.0.0.1:${FormStore().FormData.vits4.location}/generate`, body: {
@@ -23,13 +23,15 @@ export const vits4Api = new class vits3Api extends Http {
       },
     })
   }
-  checkModel = (configPath: string, modelPath: string, name: string) => {
+  checkModel = (configPath: string, modelPath: string, name: string, clusterModelPath: string) => {
     return this.post('post', {
-      allUrl: `http://127.0.0.1:${FormStore().FormData.vits4.location}/switch`, body: {
+      allUrl: `http://127.0.0.1:${FormStore().FormData.vits4.location}/switchs`, body: {
         device: 'cuda',
         configPath,
         modelPath,
-        name
+        name,
+        clusterModelPath,
+        enhance: false
       },
     })
   }
