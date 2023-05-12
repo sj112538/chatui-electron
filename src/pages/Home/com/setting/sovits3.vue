@@ -179,7 +179,7 @@ const modelsForm = ref({
   cover: ''
 })
 const submitModels = () => {
-  modelFormData.value.models.push(modelsForm.value)
+  modelFormData.value.models.push(modelsForm.value as any)
   modelsVisible.value = false
 }
 const addModels = () => {

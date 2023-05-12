@@ -13,7 +13,7 @@
         <div class="viewContentBox">
           <div v-for="item, index in textList" :key="item.created" class="chat-item">
             <div class="chat-item-template">
-              <chat-item :index="index" ref="chatItemRef" @delete="deleteText(index)" :item="item"></chat-item>
+              <chat-item :index="index" ref="chatItemRef" @delete="deleteText(index)" :item="(item as any)"></chat-item>
             </div>
           </div>
         </div>
@@ -36,8 +36,8 @@ import ClipboardJS from 'clipboard'
 import GamePlay from './GamePlay/index.vue'
 import { saveSession, sessionMap } from '../chatLeft';
 import chatItem from './chat-item/index.vue'
-const textModel = useOpenAi.getModel()
-const imgModel = useStableDiffion.getModel()
+const textModel = await useOpenAi.getModel()
+const imgModel = await useStableDiffion.getModel()
 const voiceModel = useVits.getModel()
 const Models = markRaw([textModel, imgModel, voiceModel])
 const { editorArea, send, textList } = useAiHandler()

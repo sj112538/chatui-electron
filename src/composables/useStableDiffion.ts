@@ -11,23 +11,23 @@ class useStableDiffion extends useAiBase {
   async setModel(Model: Model): Promise<void> {
     const { data } = await SDApi.checkModel(Model.id)
     if (data[0].value === Model.id) {
-      localStorage.setItem('nowImgModel', JSON.stringify(Model))
-      this.getModel().value = Model
+      await Localforage.setItem('nowImgModel', JSON.stringify(Model))
+      ;(await this.getModel()).value = Model
     }
   }
-  getModel = () => {
-    nowImgModel.value = JSON.parse(localStorage.getItem("nowImgModel")!)
+  getModel = async () => {
+    nowImgModel.value = JSON.parse(await Localforage.getItem("nowImgModel") as string)
     return nowImgModel
   }
   listModels = async (setData: any) => {
     if (formData.value.stableDiffusion?.isOpen) {
-      if (!JSON.parse(localStorage.getItem('stableDiffusionModels')!)) {
+      if (!JSON.parse(await Localforage.getItem('stableDiffusionModels') as string)) {
         const data = await SDApi.getModels()
-        setData(data,'model')
-        localStorage.setItem('stableDiffusionModels', JSON.stringify(data))
+        setData(data, 'model')
+        await Localforage.setItem('stableDiffusionModels', JSON.stringify(data))
         return
       }
-      setData(JSON.parse(localStorage.getItem('stableDiffusionModels')!))
+      setData(JSON.parse(await Localforage.getItem('stableDiffusionModels') as string))
     }
   }
 }

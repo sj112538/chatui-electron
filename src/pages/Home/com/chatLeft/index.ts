@@ -56,8 +56,8 @@ interface sessionMap {
 
 export const sessionMap: Ref<sessionMap> = ref({}) as any
 
-export const saveSession = () => {
-  localStorage.setItem('sessionMap', CircularJSON.stringify(sessionMap.value))
+export const saveSession = async () => {
+  await Localforage.setItem('sessionMap', CircularJSON.stringify(sessionMap.value))
 }
 export let nowSessionName = ref<string>('')
 export class Session {
@@ -79,8 +79,8 @@ export class Session {
   setSession = (name: string) => {
     nowSessionName.value = name
   }
-  getSession = () => {
-    sessionMap.value = CircularJSON.parse(localStorage.getItem('sessionMap')!) || {}
+  getSession = async () => {
+    sessionMap.value = CircularJSON.parse(await Localforage.getItem('sessionMap') as string) || {}
   }
 
   insertSession = (index: number) => {

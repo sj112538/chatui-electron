@@ -1,9 +1,9 @@
 export const formData: Ref<FormData & {}> = ref({} as any)
-formData.value = JSON.parse(localStorage.getItem('setting')!) || {}
+formData.value = JSON.parse(await Localforage.getItem('setting') as string) || {}
 class Form {
   dialogVisible = ref<boolean>()
-  keep = () => {
-    localStorage.setItem('setting', JSON.stringify(formData.value))
+  keep = async () => {
+    await Localforage.setItem('setting', JSON.stringify(formData.value))
   }
   open = () => {
     this.dialogVisible.value = true

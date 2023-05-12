@@ -61,7 +61,7 @@
     </div>
   </div>
 </template>
-<script setup lang='ts'>
+<script setup async lang='ts'>
 import { OpenAIFile } from 'openai/dist/api';
 const props = defineProps({
   modelItem: Object as PropType<Partial<Model & OpenAIFile>>,

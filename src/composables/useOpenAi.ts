@@ -25,7 +25,7 @@ class useOpenAi extends useAiBase {
     fineTuneList.value = data
   }
   listModels = async (setData: any) => {
-    if (!JSON.parse(localStorage.getItem('openaiModels')!)) {
+    if (!JSON.parse(await Localforage.getItem('openaiModels') as string)) {
       const { data: { data } } = await this.getOpenapi().listModels()
       const json: GPT3Models = modelsInfo.value!
       const model = data.map((e: any) => {
@@ -36,19 +36,19 @@ class useOpenAi extends useAiBase {
         }
       })
       setData(model, 'model')
-      localStorage.setItem('openaiModels', JSON.stringify(model))
+      await Localforage.setItem('openaiModels', JSON.stringify(model))
       return
     }
-    setData(JSON.parse(localStorage.getItem('openaiModels')!), 'model')
+    setData(JSON.parse(await Localforage.getItem('openaiModels') as string), 'model')
   }
-  getModel = () => {
-    nowModel.value = JSON.parse(localStorage.getItem("Model")!)
+  getModel = async () => {
+    nowModel.value = JSON.parse(await Localforage.getItem("Model") as string)
     return nowModel
   }
-  setModel(Model: Model): void {
-    localStorage.setItem('Model', JSON.stringify(Model))
-    FormStore().setFormName(Model.type)
-    this.getModel().value = Model
+  async setModel(Model: Model) {
+    await Localforage.setItem('Model', JSON.stringify(Model))
+    FormStore().setFormName(Model.type);
+    (await this.getModel()).value = Model
   }
   getFile = async () => {
     const { data } = await chatgptApi.getFile()
@@ -119,7 +119,7 @@ class useOpenAi extends useAiBase {
       } as ChatCompletionRequestMessage
     })
     await chatgptApi.chatStream({
-      model: this.getModel().value!.id,
+      model: (await this.getModel()).value!.id,
       messages: messages,
       ...FormStore().FormData.chatCompletion
     }, this.textList, '/v1/chat/completions', options)
@@ -127,7 +127,7 @@ class useOpenAi extends useAiBase {
   sendCompletion = async (options?: resetSessionOptions) => {
     const messages: Array<string> = this.textList.value.map(e => e.message!)
     const params: CreateCompletionRequest = {
-      model: this.getModel().value!.id,
+      model: (await this.getModel()).value!.id,
       prompt: messages,
       ...FormStore().FormData.completion
     }

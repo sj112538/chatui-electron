@@ -5,7 +5,9 @@
       <chat-left />
       <template v-for="( value, key )  in sessionMap">
         <template v-if="key === nowSessionName">
-          <chat :textList="value" />
+          <Suspense>
+            <chat :textList="value" />
+          </Suspense>
         </template>
       </template>
       <chat-right />
@@ -13,6 +15,7 @@
   </div>
 </template>
 <script setup lang='ts'>
+import { Suspense } from 'vue';
 import { sessionMap, nowSessionName, useSession } from './com/chatLeft';
 import { loading } from '@/composables/useLoading'
 const { sessionBuilder, getSession } = useSession()

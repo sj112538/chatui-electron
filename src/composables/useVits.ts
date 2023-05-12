@@ -68,14 +68,14 @@ class useVits extends useAiBase {
   }
   async confirm() {
     try {
-      if (FormStore().FormData.vits3.location) {
+      if (FormStore().FormData.vits3?.location) {
         const data = await vits3Api.confirm()
         if (data) {
           vits3_is_open.value = true
         }
       }
     } catch { }
-    if (FormStore().FormData.vits4.location) {
+    if (FormStore().FormData.vits4?.location) {
       const data = await vits4Api.confirm()
       if (data) {
         vits4_is_open.value = true

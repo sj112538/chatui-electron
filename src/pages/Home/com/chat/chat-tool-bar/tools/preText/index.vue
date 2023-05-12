@@ -119,7 +119,7 @@ const openAddTextDialog = (event: Event, item?: preTextList, index?: number) => 
   }
 }
 const { preTextList, addPreText, editPreText, saveTextList } = usePreText()
-preTextList.value = JSON.parse(localStorage.getItem('preTextList')!) || []
+preTextList.value = JSON.parse(await Localforage.getItem('preTextList')!) || []
 const submit = (index: number) => {
   preTextList.value.splice(index, 1)
   saveTextList()

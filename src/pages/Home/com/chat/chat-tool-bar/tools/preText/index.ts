@@ -16,7 +16,7 @@ export const usePreText = () => {
     saveTextList()
   }
   const saveTextList = () => {
-    localStorage.setItem('preTextList', JSON.stringify(preTextList.value))
+    Localforage.setItem('preTextList', JSON.stringify(preTextList.value))
   }
   const sendText = (content: string, event: MouseEvent) => {
     event.stopPropagation()

@@ -1,6 +1,5 @@
 // main.ts
 import { createApp } from 'vue'
-import ElementPlus from 'element-plus'
 import directive from '@/directive/index'
 import 'element-plus/dist/index.css'
 import { init } from './init'

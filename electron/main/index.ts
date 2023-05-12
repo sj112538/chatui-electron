@@ -12,7 +12,6 @@ function createWindow() {
   process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true'
   mainWindow.loadFile('dist/index.html')
   mainWindow.setMenu(null)
-  mainWindow.webContents.openDevTools()
 }
 app.whenReady().then(() => {
   createWindow()

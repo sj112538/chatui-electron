@@ -2,7 +2,7 @@
   "chatCompletion": {
     "formOptions": {
       "temperature": {
-        "info": "控制生成文本的"创造力"，该参数较高时生成的文本可能更加奇特，较低时则更加传统。取值范围为0到2。",
+        "info": "控制生成文本的创造力，该参数较高时生成的文本可能更加奇特，较低时则更加传统。取值范围为0到2。",
         "label": "Temperature",
         "type": "input-number",
         "rules": {
@@ -11,7 +11,7 @@
         }
       },
       "top_p": {
-        "info": "控制生成文本的"保守度"，该参数较高时生成的文本可能更加传统、固定，较低时候则更加自由、随机。取值范围为0到1之间的小数。",
+        "info": "控制生成文本的保守度，该参数较高时生成的文本可能更加传统、固定，较低时候则更加自由、随机。取值范围为0到1之间的小数。",
         "label": "Top P",
         "type": "input-number",
         "rules": {
@@ -165,13 +165,15 @@
         "info": "用于处理发音不同的单词的方法, 值为整数，可以是正负数，代表半音数量。升高八度是12",
         "label": "VC Transform",
         "type": "input-number",
-        "required": false
+        "required": false,
+        "default": 0
       },
       "cluster_ratio": {
         "info": "将帧向量聚类时的比率，范围为 0 到 1 之间的浮点数",
         "label": "Cluster Ratio",
         "type": "input-number",
-        "required": false
+        "required": false,
+        "default": 0
       },
       "slice_db": {
         "info": "在语音片段分割中用于调整音量的阈值，通常为负数",
@@ -234,7 +236,7 @@
         "label": "TTS Rate",
         "type": "input-number",
         "required": false,
-        "default": 1.0
+        "default": 0
       },
       "tts_voice": {
         "info": "语音合成的声音，可以是不同的选项",

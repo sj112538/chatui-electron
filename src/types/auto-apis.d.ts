@@ -8,6 +8,7 @@ declare global {
   const EffectScope: typeof import('vue')['EffectScope']
   const FilesList: typeof import('../composables/useOpenAi')['FilesList']
   const FormStore: typeof import('../store/Form/FormStore')['FormStore']
+  const Localforage: typeof import('../utils/modules/store/localforage')['Localforage']
   const SDApi: typeof import('../api/modules/stableDiffusion')['SDApi']
   const asyncComputed: typeof import('@vueuse/core')['asyncComputed']
   const autoKeyRef: typeof import('../utils/modules/ref/autoKeyRef')['autoKeyRef']

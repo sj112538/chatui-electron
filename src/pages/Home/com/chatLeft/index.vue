@@ -1,5 +1,7 @@
 <template>
-  <model-list v-show="select === 'Model'" />
+  <Suspense>
+    <model-list v-show="select === 'Model'" />
+  </Suspense>
   <Setting v-if="select === 'setting'" />
   <session-list v-if="select === 'session'" />
   <keep-alive>

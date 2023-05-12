@@ -51,8 +51,8 @@ abstract class useAiBase {
     modelsInfo.value = json
   }
   abstract setModel(Model: Model): void
-  abstract getModel(): Ref<any>
-  abstract listModels: (setData: any) => Promise<any>
+  abstract getModel(): any
+  abstract listModels: (setData: any) => any
   abstract send(prompt?: string, textList?: Ref<Partial<chatCompletion>[]>): void
 }
 export default useAiBase
