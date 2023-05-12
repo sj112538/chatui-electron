@@ -66,8 +66,9 @@ watch(() => formDataVar.value, () => {
   deep: true
 })
 const reset = () => {
-  console.log(props.options);
-  formDataVar.value = {}
+  Object.keys(props.options).forEach((key) => {
+    Reflect.set(formDataVar.value,key,props.options[key].default)
+  })
   emit('update:formData', {})
   FormStore().resetForm(FormStore().FormName!)
 } 

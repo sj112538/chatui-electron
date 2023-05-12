@@ -1,4 +1,4 @@
-import { Configuration, CreateCompletionRequest, FineTune, ListFilesResponse, ListFineTunesResponse, OpenAIApi, OpenAIFile } from "openai";
+import { Configuration, CreateCompletionRequest, FineTune, OpenAIApi, OpenAIFile } from "openai";
 import useAiBase, { modelsInfo } from './useAiBase'
 import { ChatCompletionRequestMessage } from "openai"
 import { formData } from "@/pages/Home/com/setting/hook/useForm";
@@ -9,9 +9,6 @@ export const nowFile = ref()
 export const nowfineTune = ref()
 export const FilesList = ref<OpenAIFile[]>([])
 export const fineTuneList = ref<FineTune[]>([])
-interface ModelReal extends Model {
-  root: string
-}
 class useOpenAi extends useAiBase {
   getOpenapi() {
     const configuration = new Configuration({

@@ -202,6 +202,7 @@ declare global {
     select: Array,
     multiple: Boolean,
     seleType: '文件夹' | '文件' | '混合'
+    default: any
   }
 
   type GPT3ModelsKeys = keyof GPT3Models

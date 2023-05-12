@@ -34,12 +34,16 @@ import { ElMessage } from 'element-plus';
 import { OpenAIFile } from 'openai';
 import ClipboardJS from 'clipboard'
 import GamePlay from './GamePlay/index.vue'
-import { saveSession, sessionMap } from '../chatLeft';
+import { saveSession } from '../chatLeft';
 import chatItem from './chat-item/index.vue'
-const textModel = await useOpenAi.getModel()
-const imgModel = await useStableDiffion.getModel()
-const voiceModel = useVits.getModel()
-const Models = markRaw([textModel, imgModel, voiceModel])
+let Models = ref()
+const initModel = async () => {
+  const textModel = await useOpenAi.getModel()
+  const imgModel = await useStableDiffion.getModel()
+  const voiceModel = useVits.getModel()
+  Models.value = markRaw([textModel, imgModel, voiceModel])
+}
+initModel()
 const { editorArea, send, textList } = useAiHandler()
 const props = defineProps({
   textList: Object as PropType<Ref<chatCompletion[]>>
