@@ -89,7 +89,6 @@ app.ws("/cmd", (ws, req) => {
     cwd: process.env.HOME,
     env: process.env,
   });
-  ws.on("open", (data) => { });
   term.on("data", function (data) {
     ws.send(data);
   });
@@ -102,5 +101,84 @@ app.ws("/cmd", (ws, req) => {
     term.write(json.Data);
   });
 });
+
+const { WebClient } = require('@slack/web-api');
+app.post('/getChannel', async (req, res) => {
+  let result;
+  try {
+    const web = new WebClient(req.body.token);
+    result = await web.conversations.list();
+  } catch (err) {
+    return res.json({ err })
+  }
+  return res.json({ result: result })
+})
+app.post('/getMembers', async (req, res) => {
+  let result;
+  try {
+    const web = new WebClient(req.body.token);
+    result = await web.conversations.members({
+      channel: req.body.channel
+    });
+  } catch (err) {
+    return res.json({ err })
+  }
+  return res.json({ result: result })
+})
+app.post('/postMessage', async (req, res) => {
+  let result;
+  try {
+    const web = new WebClient(req.body.token);
+    result = await web.chat.postMessage({
+      text: req.body.message,
+      channel: req.body.channel
+    })
+  } catch (err) {
+    return res.json({ err })
+  }
+  return res.json({ result: result })
+})
+
+let token
+app.post('/history', async (req, res) => {
+  let result
+  token = req.body.token
+  const channel = req.body.channel
+  try {
+    const web = new WebClient(token);
+    result = await web.conversations.history({ channel: channel });
+  } catch (err) {
+    return res.json({ err })
+  }
+  return res.json({ result: result })
+})
+
+app.post('/test', async (req, res) => {
+  let result
+  const token = req.body.token
+  try {
+    const web = new WebClient(token);
+    result = await web.api.test()
+  } catch (err) {
+    return res.json({ err })
+  }
+  return res.json({ result: result })
+})
+
+
+app.ws("/slackWs", async (ws, req) => {
+  try {
+    const { RTMClient } = require('@slack/rtm-api');
+    const rtm = new RTMClient(token);
+    await rtm.start();
+    rtm.on('message', (event) => {
+      // 将接收到的事件对象发送给WebSocket客户端
+      ws.send(JSON.stringify(event));
+    });
+  } catch (err) {
+    ws.send(JSON.stringify(err));
+  }
+});
+
 const args = process.argv.slice(2);
 app.listen(args[0]);

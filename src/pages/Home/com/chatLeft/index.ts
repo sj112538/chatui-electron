@@ -50,19 +50,15 @@ export const useSearch = () => {
   return new Search()
 }
 
-interface sessionMap {
-  [x: string]: Ref<chatCompletion[]>
-}
-
 export const sessionMap: Ref<sessionMap> = ref({}) as any
 
 export const saveSession = async () => {
   await Localforage.setItem('sessionMap', CircularJSON.stringify(sessionMap.value))
 }
-export let nowSessionName = ref<string>('')
+export let nowSessionName = ref<sessionMapKey>('')
 export class Session {
   constructor(public session?: Ref<Partial<chatCompletion>[]>) { }
-  addSession = (name: string, session?: Partial<chatCompletion>[]) => {
+  addSession = (name: sessionMapKey, session?: Partial<chatCompletion>[]) => {
     if (session) {
       Reflect.set(sessionMap.value, name, session)
     } else {
@@ -76,7 +72,7 @@ export class Session {
     nowSessionName.value = '空白对话'
     saveSession()
   }
-  setSession = (name: string) => {
+  setSession = (name: sessionMapKey) => {
     nowSessionName.value = name
   }
   getSession = async () => {

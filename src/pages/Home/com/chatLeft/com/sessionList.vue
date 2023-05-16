@@ -26,6 +26,9 @@ import { sessionMap } from '../index'
 import { Search } from '@element-plus/icons-vue'
 const search = useSearch()
 search.resetData(sessionMap.value)
+watch(() => sessionMap.value, () => {
+  search.resetData(sessionMap.value)
+})
 const { setSession, deleSession } = useSession()
 const updateTitle = (e: string, data: any) => {
   data[0].title = e

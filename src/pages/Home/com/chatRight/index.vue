@@ -4,9 +4,8 @@
       <el-radio-button label="text">文本</el-radio-button>
       <el-radio-button label="vits3">vits3</el-radio-button>
       <el-radio-button label="vits4">vits4</el-radio-button>
-      <el-radio-button label="image">图像</el-radio-button>
-      <el-radio-button label="video">视频</el-radio-button>
-      <el-radio-button label="openAi微调">openAi微调</el-radio-button> 
+      <el-radio-button label="slack">slack</el-radio-button>
+      <el-radio-button label="openAi微调">openAi微调</el-radio-button>
     </el-radio-group>
     <MoneyInfo />
     <forms />
@@ -32,8 +31,8 @@ const tabCheckMap = {
   'vits4': () => {
     FormStore().setFormName("vits4")
   },
-  'image': () => {
-
+  'slack': () => {
+    FormStore().setFormName("slack")
   },
   'video': () => {
 

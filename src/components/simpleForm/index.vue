@@ -90,6 +90,7 @@ const reset = () => {
 
 .reset {
   margin-bottom: 20px;
+  width: 200px !important;
 }
 
 .left {

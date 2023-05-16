@@ -1,6 +1,7 @@
 import { formData } from '@/pages/Home/com/setting/hook/useForm'
 import { ElMessage } from 'element-plus'
 import useAiBase from './useAiBase'
+import { nowSessionName } from '@/pages/Home/com/chatLeft'
 
 class AiHandler extends useAiBase {
   listModels = async (setData: any) => {
@@ -40,6 +41,10 @@ class AiHandler extends useAiBase {
     this.editorArea.value = ''
     useOpenAi.setTextList(this.textList)
     useOpenAi.addUserSession(prompt)
+    if (nowSessionName.value === '0') {
+      await useSlack().postMessage(prompt)
+      return
+    }
     if ((await useOpenAi.getModel()).value) {
       await useOpenAi.send()
     }

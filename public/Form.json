@@ -242,7 +242,17 @@
         "info": "语音合成的声音，可以是不同的选项",
         "label": "TTS Voice",
         "type": "select",
-        "required": false
+        "required": false,
+        "select": [
+          {
+            "label": "男",
+            "value": "男"
+          },
+          {
+            "label": "女",
+            "value": "女"
+          }
+        ]
       }
     }
   },
@@ -290,6 +300,21 @@
       },
       "speakerId": {
         "type": "input-number"
+      }
+    }
+  },
+  "slack": {
+    "formOptions": {
+      "token": {
+        "info": "token",
+        "label": "token",
+        "type": "input-text",
+        "required": false
+      },
+      "channel": {
+        "info": "channel",
+        "label": "channel",
+        "type": "input-text"
       }
     }
   }

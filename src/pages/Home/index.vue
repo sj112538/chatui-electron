@@ -5,7 +5,7 @@
       <chat-left />
       <template v-for="( value, key )  in sessionMap">
         <template v-if="key === nowSessionName">
-            <chat :textList="value" />
+          <chat :textList="value" />
         </template>
       </template>
       <chat-right />

@@ -41,7 +41,11 @@ const setModel = (item: Model) => {
 }
 // 获取模型
 useAiHandler().listModels(search.setData)
-const Models = await useOpenAi.getModel()
+const Models = ref()
+const getModels = async () => {
+  Models.value = await useOpenAi.getModel()
+}
+getModels()
 const info = ref()
 watchEffect(() => {
   info.value = modelsInfo.value

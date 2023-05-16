@@ -67,6 +67,7 @@ declare module '@vue/runtime-core' {
     Setting: typeof import('./../pages/Home/com/chatLeft/com/Setting.vue')['default']
     SiderList: typeof import('./../components/siderList/siderList.vue')['default']
     SimpleForm: typeof import('./../components/simpleForm/index.vue')['default']
+    SlackForm: typeof import('./../pages/Home/com/chatRight/Forms/slackForm.vue')['default']
     Sovits3: typeof import('./../pages/Home/com/setting/sovits3.vue')['default']
     Sovits3Form: typeof import('./../pages/Home/com/chatRight/Forms/sovits3Form.vue')['default']
     Sovits4: typeof import('./../pages/Home/com/setting/sovits4.vue')['default']

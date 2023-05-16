@@ -5,7 +5,7 @@
       </simple-form>
       <el-button type="primary" size="default" @click="createFineTune" :loading="createFineTuneLoading">创建微调</el-button>
     </el-dialog>
-    <el-button type="primary" @click="logVisible = true">openApi微调</el-button>
+    <el-button class="btn" type="primary" @click="logVisible = true">openApi微调</el-button>
   </div>
 </template>
 

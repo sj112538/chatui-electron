@@ -41,9 +41,12 @@ watch(() => componentRefs.value, async () => {
   deep: true
 }) 
 </script>
-<style scoped>
+<style scoped lang="scss">
 .chatFormBox {
   overflow: auto;
   padding-top: 10px;
+}
+:deep(.el-button) {
+  width: 100%;
 }
 </style>

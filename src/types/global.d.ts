@@ -11,6 +11,13 @@ declare global {
     VITE_API_PORT: number
     VITE_PYTHON_PORT: number
   }
+
+  interface sessionMap {
+    '0': Ref<chatCompletion[]>, //claude
+    '空白对话': Ref<chatCompletion[]>,
+    [x: string]: Ref<chatCompletion[]>
+  }
+  type sessionMapKey = keyof sessionMap
   interface Model extends GptModel {
     id: string;
     object: string;
@@ -106,7 +113,21 @@ declare global {
     'vits3': Vits3
     'openAi微调': CreateFineTuneRequest
     'vits4': Vits4
+    slack: Slack
     [x: string]: Object
+  }
+  interface Slack {
+    channel: string,
+    token: string,
+    message?: string,
+    username?: string,
+    members?: string,
+    user: string
+  }
+  interface SlackRequest {
+    methods: string,
+    options?: string,
+    token?: string
   }
   interface settingFormData {
     'vits3': vits3SettingForm
@@ -188,6 +209,11 @@ declare global {
       formOptions: {
         [x: string]: formOption
       };
+    },
+    slack: {
+      formOptions: {
+        [x: string]: formOption
+      };
     }
   }
   interface formOption {
@@ -238,7 +264,9 @@ declare global {
     headers?: { [key: string]: string };
     body?: any;
   }
-  type Voice = [number, string]
+  interface Voice {
+    randsample: number, audio: Array<number>
+  }
   interface VoiceStock {
     data: Voice,
     index: number,

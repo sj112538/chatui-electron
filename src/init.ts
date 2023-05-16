@@ -1,6 +1,9 @@
 import { saveSession, sessionMap } from "./pages/Home/com/chatLeft"
 import { formData } from "./pages/Home/com/setting/hook/useForm"
 export const init = async () => {
+  const slack = useSlack()
+  slack.getHistory()
+  slack.messageWS()
   chatglmApi.getToken()
   FormStore().FormInfoInit()
   useAiHandler().ModelInfoInit()

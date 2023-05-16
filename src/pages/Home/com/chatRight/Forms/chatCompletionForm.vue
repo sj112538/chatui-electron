@@ -1,6 +1,6 @@
 <template>
   <div v-if="visible" class="chatForm">
-    <el-dialog title="chatCompletion" v-model="logVisible" width="50%" center>
+    <el-dialog :modal-append-to-body="true" title="chatCompletion" v-model="logVisible" width="50%" center>
       <simple-form v-model:formData="form.FormData.chatCompletion" :options="form.FormInfo!.chatCompletion.formOptions"
         :label-position="'left'" :inline="false">
         <template #max_tokensTit="{ option }">
@@ -15,7 +15,7 @@
         </template>
       </simple-form>
     </el-dialog>
-    <el-button type="primary" @click="logVisible = true">配置chatCompletion</el-button>
+    <el-button  class="btn" type="primary" @click="logVisible = true">配置chatCompletion</el-button>
   </div>
 </template>
 
