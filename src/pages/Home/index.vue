@@ -3,13 +3,15 @@
     <div class="content">
       <operate />
       <chat-left />
-      <template v-for="( value, key )  in sessionMap">
-        <template v-if="key === nowSessionName">
-          <chat :textList="value" />
+      <template v-if="sessionMap.hasOwnProperty(nowSessionName)">
+        <template v-for="( value, key )  in sessionMap">
+          <template v-if="key === nowSessionName">
+            <chat :textList="value" />
+          </template>
         </template>
-        <template v-else-if="!sessionMap.hasOwnProperty(nowSessionName)">
-          <chat :textList="sessionMap['空白对话']" />
-        </template>
+      </template>
+      <template v-else>
+        <chat :textList="sessionMap['空白对话']" />
       </template>
       <chat-right />
     </div>

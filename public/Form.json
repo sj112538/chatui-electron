@@ -320,327 +320,309 @@
   },
   "stableDiffusion": {
     "formOptions": {
-      "enable_hr": {
-        "info": "是否启用高清重建（Hires. fix）来生成更高质量的图像。",
-        "label": "启用高清重建（Hires. fix）",
-        "type": "checkbox",
-        "required": false,
-        "default": false
-      },
-      "denoising_strength": {
-        "info": "在启用高清重建（Hires. fix）时，进行降噪的程度。",
-        "label": "降噪强度",
-        "type": "slider",
+      "firstphase_width": {
+        "info": "第一阶段采样的图像宽度。",
+        "label": "第一阶段图像宽度",
+        "type": "input-number",
         "required": false,
         "default": 0,
-        "minimum": 0,
-        "maximum": 1,
-        "step": 0.01
-      },
-      "firstphase_width": {
-        "info": "第一阶段用于生成潜在向量的宽度大小。",
-        "label": "第一阶段宽度",
-        "type": "number",
-        "required": false,
-        "default": 0
+        "mini": 0
       },
       "firstphase_height": {
-        "info": "第一阶段用于生成潜在向量的高度大小。",
-        "label": "第一阶段高度",
-        "type": "number",
+        "info": "第一阶段采样的图像高度。",
+        "label": "第一阶段图像高度",
+        "type": "input-number",
         "required": false,
-        "default": 0
+        "default": 0,
+        "mini": 0
       },
       "hr_scale": {
-        "info": "在启用高清重建（Hires. fix）时，图像放大的倍数。",
-        "label": "放大倍数",
-        "type": "slider",
+        "info": "高清重建（Hires. fix）的缩放倍数。",
+        "label": "Hires.缩放倍数",
+        "type": "input-number",
         "required": false,
         "default": 2,
-        "minimum": 1,
-        "maximum": 4,
-        "step": 0.05
+        "mini": 1
       },
       "hr_upscaler": {
-        "info": "在启用高清重建（Hires. fix）时，使用的放大器类型。",
-        "label": "放大器",
-        "type": "dropdown"
+        "info": "高清重建（Hires. fix）使用的上采样器。",
+        "label": "Hires.上采样器",
+        "type": "input-text",
+        "required": false,
+        "default": "Latent"
       },
       "hr_second_pass_steps": {
-        "info": "在启用高清重建（Hires. fix）时，进行第二遍放大的步骤数。",
-        "label": "第二遍放大的步骤数",
-        "type": "slider",
+        "info": "高清重建（Hires. fix）的第二次步骤的迭代次数。",
+        "label": "Hires.第二次迭代步数",
+        "type": "input-number",
         "required": false,
-        "default": 0,
-        "minimum": 0,
-        "maximum": 150,
-        "step": 1
+        "default": 10,
+        "mini": 0
       },
       "hr_resize_x": {
-        "info": "在启用高清重建（Hires. fix）时，进行第二遍放大后，调整宽度的大小。",
-        "label": "宽度调整",
-        "type": "number",
-        "required": false,
-        "default": 0
-      },
-      "hr_resize_y": {
-        "info": "在启用高清重建（Hires. fix）时，进行第二遍放大后，调整高度的大小。",
-        "label": "高度调整",
-        "type": "number",
-        "required": false,
-        "default": 0
-      },
-      "prompt": {
-        "info": "文本生成图像的文本输入。",
-        "label": "激励文本",
-        "type": "textarea",
-        "required": true
-      },
-      "styles": {
-        "info": "用于生成样式的文本。",
-        "label": "样式",
-        "type": "list",
-        "required": false,
-        "default": [],
-        "element_type": "text"
-      },
-      "seed": {
-        "info": "用于控制生成图像的随机值种子。",
-        "label": "种子",
-        "type": "number",
-        "required": false,
-        "default": -1
-      },
-      "subseed": {
-        "info": "用于生成图像的随机值的另一个种子。",
-        "label": "变化种子",
-        "type": "number",
-        "required": false,
-        "default": -1
-      },
-      "subseed_strength": {
-        "info": "用于控制变化种子的强度。",
-        "label": "变化种子强度",
-        "type": "slider",
+        "info": "在高清重建（Hires. fix）期间，将生成的图像调整为指定的X大小。",
+        "label": "Hires.调整X大小",
+        "type": "input-number",
         "required": false,
         "default": 0,
-        "minimum": 0,
-        "maximum": 1,
+        "mini": 0
+      },
+      "hr_resize_y": {
+        "info": "在高清重建（Hires. fix）期间，将生成的图像调整为指定的Y大小。",
+        "label": "Hires.调整Y大小",
+        "type": "input-number",
+        "required": false,
+        "default": 0,
+        "mini": 0
+      },
+      "styles": {
+        "info": "使用的风格列表。",
+        "label": "样式",
+        "type": "list",
+        "required": true,
+        "default": []
+      },
+      "seed": {
+        "info": "种子数。当设置为-1时，将随机生成种子数。",
+        "label": "种子数",
+        "type": "input-number",
+        "required": false,
+        "default": -1,
+        "mini": -1
+      },
+      "subseed": {
+        "info": "用于确定数据增强的子种子数。",
+        "label": "子种子数",
+        "type": "input-number",
+        "required": false,
+        "default": -1,
+        "mini": -1
+      },
+      "subseed_strength": {
+        "info": "用于增强数据的子种子数强度。",
+        "label": "子种子强度",
+        "type": "input-number",
+        "required": false,
+        "default": 0,
+        "mini": 0,
+        "max": 1,
         "step": 0.01
       },
       "seed_resize_from_h": {
-        "info": "用于重新调整图像大小的新高度值。",
-        "label": "重新调整图像大小的新高度值",
-        "type": "number",
+        "info": "用于调整种子图像大小的高度和宽度。",
+        "label": "种子图像大小 - 高度",
+        "type": "input-number",
         "required": false,
-        "default": -1
+        "default": -1,
+        "mini": -1
       },
       "seed_resize_from_w": {
-        "info": "用于重新调整图像大小的新宽度值。",
-        "label": "重新调整图像大小的新宽度值",
-        "type": "number",
+        "info": "用于调整种子图像大小的高度和宽度。",
+        "label": "种子图像大小 - 宽度",
+        "type": "input-number",
         "required": false,
-        "default": -1
+        "default": -1,
+        "mini": -1
       },
       "sampler_name": {
-        "info": "用于选择采样器的名称。",
-        "label": "采样器",
-        "type": "dropdown",
-        "required": false,
-        "default": "Euler"
+        "info": "要使用的采样器的名称。",
+        "label": "采样器名称",
+        "type": "input-text",
+        "required": true,
+        "default": "DPM++ 2S a Karras"
       },
       "batch_size": {
-        "info": "每个批次中含有图像的数量。",
-        "label": "批次大小",
-        "type": "slider",
+        "info": "用于每次迭代生成图像的批次大小。",
+        "label": "批量大小",
+        "type": "input-number",
         "required": false,
         "default": 1,
-        "minimum": 1,
-        "maximum": 8,
-        "step": 1
+        "mini": 1
       },
       "n_iter": {
-        "info": "循环次数。",
-        "label": "循环次数",
-        "type": "number",
+        "info": "生成图像的次数。",
+        "label": "迭代次数",
+        "type": "input-number",
         "required": false,
-        "default": 1
+        "default": 1,
+        "mini": 1
       },
       "steps": {
-        "info": "生成图像的步骤数量。",
-        "label": "步骤数",
-        "type": "number",
+        "info": "每次迭代中进行的优化步骤数。",
+        "label": "优化步数",
+        "type": "input-number",
         "required": false,
-        "default": 50
+        "default": 50,
+        "mini": 1
       },
       "cfg_scale": {
-        "info": "图像分辨率和生成速度之间的平衡。值越高，图像越清晰但生成速度越慢。",
-        "label": "CFG Scale",
-        "type": "slider",
+        "info": "生成图像的尺度，该尺度越高，生成的图像越大。",
+        "label": "图像缩放",
+        "type": "input-number",
         "required": false,
-        "minimum": 1.0,
-        "maximum": 30.0,
-        "step": 0.5,
-        "default": 7.0
+        "default": 7,
+        "mini": 1
       },
       "width": {
-        "info": "生成图像的宽度，值越高，图像越大。",
+        "info": "生成图像的宽度。",
         "label": "图像宽度",
-        "type": "slider",
+        "type": "input-number",
         "required": false,
-        "minimum": 64,
-        "maximum": 2048,
-        "step": 8,
-        "default": 512
+        "default": 512,
+        "mini": 1
       },
       "height": {
-        "info": "生成图像的高度，值越高，图像越大。",
+        "info": "生成图像的高度。",
         "label": "图像高度",
-        "type": "slider",
+        "type": "input-number",
         "required": false,
-        "minimum": 64,
-        "maximum": 2048,
-        "step": 8,
-        "default": 512
+        "default": 512,
+        "mini": 1
       },
       "restore_faces": {
-        "info": "是否为生成的图像恢复人脸。",
-        "label": "人脸恢复",
+        "info": "是否在生成图像过程中还原图像的脸部。",
+        "label": "恢复面部",
         "type": "checkbox",
         "required": false,
         "default": false
       },
       "tiling": {
-        "info": "是否启用瓷砖模式，即使用一个模板多次生成图像。",
-        "label": "瓷砖模式",
+        "info": "是否在生成图像时进行平铺（可帮助生成连续的图像）。",
+        "label": "平铺",
         "type": "checkbox",
         "required": false,
         "default": false
       },
       "do_not_save_samples": {
-        "info": "是否保存生成的图像样本。",
-        "label": "不保存图像样本",
+        "info": "是否应在生成图像后不保存原始图像。",
+        "label": "不保存原始图像",
         "type": "checkbox",
         "required": false,
         "default": false
       },
       "do_not_save_grid": {
-        "info": "是否保存生成的图像网格。",
-        "label": "不保存图像网格",
+        "info": "是否应在生成图像后不保存网格图像。",
+        "label": "不保存网格图像",
         "type": "checkbox",
         "required": false,
         "default": false
       },
       "negative_prompt": {
-        "info": "负提示用于限制生成图像的内容，即生成图像不能太接近负提示。",
-        "label": "负提示",
-        "type": "text",
+        "info": "生成图像时使用的反向文本提示。",
+        "label": "反向文本提示",
+        "type": "input-text",
         "required": false,
-        "default": "string"
+        "default": "(low quality, worst quality:1.4),painting, drawing, ((((visible hand)))), ((((ugly)))), (((duplicate))), ((morbid)), ((mutilated)), [out of frame], extra fingers, mutated hands, ((poorly drawn hands)), ((poorly drawn face)), (((mutation))), (((deformed))), ((ugly)), blurry, ((bad anatomy)), (((bad proportions))), ((extra limbs)), cloned face, (((disfigured))), out of frame, ugly, extra limbs, (bad anatomy), gross proportions, (malformed limbs), ((missing arms)), ((missing legs)), (((extra arms))), (((extra legs))), mutated hands, (fused fingers), (too many fingers), (((long neck))),"
       },
       "eta": {
-        "info": "学习率的值。",
-        "label": "Eta值",
-        "type": "slider",
+        "info": "用于优化步骤的lr。",
+        "label": "lr",
+        "type": "input-number",
         "required": false,
-        "minimum": 0,
-        "maximum": 1.0,
-        "step": 0.01,
-        "default": 0
+        "default": 1.0,
+        "mini": 0,
+        "max": 1,
+        "step": 0.01
+      },
+      "s_min_uncond": {
+        "info": "无条件生成的s_min值（越小，生成的图像越模糊）。",
+        "label": "无条件s_min",
+        "type": "input-number",
+        "required": false,
+        "default": 0,
+        "mini": 0
       },
       "s_churn": {
-        "info": "目标收敛到最大概率分布的最大速度。",
-        "label": "S Churn",
-        "type": "slider",
+        "info": "每次迭代中应使用的s_churn值（越大，训练越稳定，但图像质量可能下降）。",
+        "label": "s_churn",
+        "type": "input-number",
         "required": false,
-        "minimum": 0,
-        "maximum": 50,
-        "step": 1,
-        "default": 0
+        "default": 0,
+        "mini": 0,
+        "max": 1,
+        "step": 0.01
       },
       "s_tmax": {
-        "info": "用于控制尾随时间的参数。",
-        "label": "S Tmax",
-        "type": "slider",
+        "info": "用于调整s值的最大值。",
+        "label": "s_tmax",
+        "type": "input-number",
         "required": false,
-        "minimum": 0,
-        "maximum": 250,
-        "step": 1,
-        "default": 0
+        "default": 0,
+        "mini": 0
       },
       "s_tmin": {
-        "info": "用于控制尾随时间的参数。",
-        "label": "S Tmin",
-        "type": "slider",
+        "info": "用于调整s值的最小值。",
+        "label": "s_tmin",
+        "type": "input-number",
         "required": false,
-        "minimum": 0,
-        "maximum": 250,
-        "step": 1,
-        "default": 0
+        "default": 0,
+        "mini": 0
       },
       "s_noise": {
-        "info": "添加的噪声数量。",
-        "label": "S Noise",
-        "type": "slider",
+        "info": "用于添加随机噪声的s_noise值。",
+        "label": "s_noise",
+        "type": "input-number",
         "required": false,
-        "minimum": 0,
-        "maximum": 10,
-        "step": 1,
-        "default": 1
+        "default": 1,
+        "mini": 0,
+        "max": 1,
+        "step": 0.01
       },
       "override_settings": {
-        "info": "覆盖默认设置。",
-        "label": "覆盖默认设置",
-        "type": "input-object",
-        "required": false
+        "info": "要覆盖的设置（用于高级用户）。",
+        "label": "覆盖设置",
+        "type": "input-text",
+        "required": false,
+        "default": {}
       },
       "override_settings_restore_afterwards": {
-        "info": "生成图像完成后，是否还原默认设置。",
-        "label": "生成图像完成后，是否还原默认设置",
+        "info": "是否在生成图像之后恢复覆盖的设置。",
+        "label": "在生成图像后恢复覆盖的设置",
         "type": "checkbox",
         "required": false,
         "default": true
       },
       "script_args": {
-        "info": "脚本参数。",
+        "info": "生成图像时要传递给脚本的参数。",
         "label": "脚本参数",
-        "type": "array",
+        "type": "input-text",
         "required": false,
         "default": []
       },
       "sampler_index": {
-        "info": "使用的采样器的索引。",
+        "info": "要使用的采样器的索引。",
         "label": "采样器索引",
-        "type": "dropdown",
-        "required": true,
+        "type": "input-text",
+        "required": false,
         "default": "Euler"
       },
       "script_name": {
-        "info": "脚本名称。",
+        "info": "要调用的脚本的名称。",
         "label": "脚本名称",
-        "type": "text",
+        "type": "input-text",
         "required": false,
-        "default": "string"
+        "default": ""
       },
       "send_images": {
-        "info": "是否将生成的图像发送到Gradio",
-        "label": "将生成的图像发送到Gradio",
+        "info": "是否将生成的图像发送到OpenAI服务器。",
+        "label": "发送图像",
         "type": "checkbox",
         "required": false,
         "default": true
       },
       "save_images": {
-        "info": "生成图像完成后，是否保存图像至本地。",
-        "label": "生成图像完成后，是否保存图像至本地",
+        "info": "是否保存生成的图像。",
+        "label": "保存图像",
         "type": "checkbox",
         "required": false,
-        "default": false
+        "default": true
       },
-        "alwayson_scripts": {
-        "info": "始终运行的脚本。",
-        "label": "始终运行的脚本",
-        "type": "input-object",
-        "required": false
+      "alwayson_scripts": {
+        "info": "始终同时运行的脚本（用于高级用户）。",
+        "label": "始终同时运行的脚本",
+        "type": "input-text",
+        "required": false,
+        "default": {}
       }
     }
   }
