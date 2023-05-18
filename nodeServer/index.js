@@ -168,13 +168,17 @@ app.post('/test', async (req, res) => {
 
 app.ws("/slackWs", async (ws, req) => {
   try {
-    const { RTMClient } = require('@slack/rtm-api');
-    const rtm = new RTMClient(token);
-    await rtm.start();
-    rtm.on('message', (event) => {
-      // 将接收到的事件对象发送给WebSocket客户端
-      ws.send(JSON.stringify(event));
+    const { App, LogLevel } = require("@slack/bolt");
+    const app = new App({
+      token: token,
+      signingSecret: "e9a3b764ffda573205ca55e41c1ef482",
+      logLevel: LogLevel.DEBUG
     });
+    app.message(':wave', async ({ message, say }) => {
+      ws.send(JSON.stringify(message));
+    })
+    const result = await app.client.rtm.start()
+    ws.send(JSON.stringify(result));
   } catch (err) {
     ws.send(JSON.stringify(err));
   }

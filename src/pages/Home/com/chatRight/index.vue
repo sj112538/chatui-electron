@@ -1,13 +1,13 @@
 <template>
   <div :class="paramActive ? 'function' : 'none function'">
     <el-radio-group v-model="tabPosition" style="margin-bottom: 30px;">
-      <el-radio-button label="text">文本</el-radio-button>
+      <el-radio-button label="text">openai</el-radio-button>
       <el-radio-button label="vits3">vits3</el-radio-button>
       <el-radio-button label="vits4">vits4</el-radio-button>
       <el-radio-button label="slack">slack</el-radio-button>
       <el-radio-button label="openAi微调">openAi微调</el-radio-button>
+      <el-radio-button label="stableDiffusion">stableDiffusion</el-radio-button>
     </el-radio-group>
-    <MoneyInfo />
     <forms />
   </div>
 </template>
@@ -34,8 +34,8 @@ const tabCheckMap = {
   'slack': () => {
     FormStore().setFormName("slack")
   },
-  'video': () => {
-
+  'stableDiffusion': () => {
+    FormStore().setFormName("stableDiffusion")
   },
   'openAi微调': () => {
     FormStore().setFormName("openAi微调")

@@ -2,7 +2,7 @@
   <div class="modelItem-item">
     <div v-if="modelItem?.owned_by" class="linkItemAva">
       <el-avatar :src="'data:image/png;base64,' + modelItem?.image" v-if="modelItem?.image"></el-avatar>
-      <el-avatar   v-else :src="url + '/' + modelItem?.owned_by + '.png'"></el-avatar>
+      <el-avatar v-else :src="url + '/' + modelItem?.owned_by + '.png'"></el-avatar>
     </div>
     <div class="info">
       <div v-if="props.modelItem?.id" class="modelName">

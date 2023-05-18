@@ -71,8 +71,6 @@ export const useCommand = (terminal?: Ref<HTMLElement | undefined>) => {
   const onWSReceive = (message: { data: any }) => {
     const data = message.data
     term.value!.element && term.value!.focus()
-    console.log({data});
-    
     term.value!.write(data)
   }
   const errorRealTerminal = (ex: any) => {

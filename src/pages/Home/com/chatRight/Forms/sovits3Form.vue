@@ -1,10 +1,10 @@
 <template>
   <div v-if="visible" class="chatForm">
-    <el-dialog title="VITS" v-model="logVisible" width="50%" center>
+    <el-drawer title="VITS" v-model="logVisible" width="50%" center>
       <simple-form v-model:formData="form.FormData.vits3" :options="form.FormInfo!['vits3'].formOptions"
-        :label-position="'left'" :inline="false">
+        :label-position="'top'" :inline="false">
       </simple-form>
-    </el-dialog>
+    </el-drawer>
     <el-button type="primary" class="btn" @click="logVisible = true">配置VITS</el-button>
     <el-button type="primary" v-if="vits3_is_open" class="btn" @click="vits3Run" :loading="vits3Loading">结束VITS3</el-button>
     <el-button type="primary" v-else class="btn" @click="vits3Run" :loading="vits3Loading">启动VITS3</el-button>

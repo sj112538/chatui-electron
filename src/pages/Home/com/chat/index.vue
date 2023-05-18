@@ -6,7 +6,7 @@
           <template v-for="item in Models">
             <Model v-if="item.value" :modelItem="(item.value as Model & OpenAIFile)" />
           </template>
-          <GamePlay />
+          <!-- <GamePlay /> -->
         </div>
       </div>
       <div class="viewContent">
@@ -64,7 +64,7 @@ const deleteText = (index: number) => {
 }
 const { KeyDown, KeyUp, onkeydowned } = useKeyDown()
 onkeydowned((keyMap) => {
-  if (keyMap.get('ControlLeft') && keyMap.get('Enter')) {
+  if (keyMap.get('ControlLeft') && (keyMap.get('Enter') || keyMap.get('NumpadEnter'))) {
     sendChat()
   }
 })

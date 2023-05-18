@@ -8,7 +8,7 @@
           <el-popover v-else :show-after="500" placement="top-start" :title="key.toString()" :width="600" trigger="hover"
             :content="value.info">
             <template #reference>
-              <div class="label">{{ key }}</div>
+              <div class="label">{{ value.label }}</div>
             </template>
           </el-popover>
         </template>
@@ -20,22 +20,25 @@
             <el-input-number :min="+value.rules?.min!" :max="+value.rules?.max!"
               v-model="formDataVar[key]"></el-input-number>
           </el-form-item>
-          <el-form-item v-if="value.type === 'input-text'" :rules="value.rules">
+          <el-form-item v-else-if="value.type === 'input-text'" :rules="value.rules">
             <el-input v-model="formDataVar[key]"></el-input>
           </el-form-item>
-          <el-form-item v-if="value.type === 'input-text-file-select'" :rules="value.rules">
+          <el-form-item v-else-if="value.type === 'input-text-file-select'" :rules="value.rules">
             <el-input v-model="formDataVar[key]"></el-input>
             <file-manager :multiple="Boolean(value.multiple)" :seleType="value.seleType" v-model:路径="formDataVar[key]" />
           </el-form-item>
-          <el-form-item v-if="value.type === 'checkbox'" :rules="value.rules">
+          <el-form-item v-else-if="value.type === 'checkbox'" :rules="value.rules">
             <el-switch v-model="formDataVar[key]" :active-value="true" :inactive-value="false">
             </el-switch>
           </el-form-item>
-          <el-form-item v-if="value.type === 'select'" :rules="value.rules">
+          <el-form-item v-else-if="value.type === 'select'" :rules="value.rules">
             <el-select clearable v-model="formDataVar[key]" :placeholder="'请选择' + key">
               <el-option v-for="item in value.select" :key="item.value" :label="item.label" :value="item.value">
               </el-option>
             </el-select>
+          </el-form-item>
+          <el-form-item v-else="value.type === 'input-text'" :rules="value.rules">
+            <el-input v-model="formDataVar[key]"></el-input>
           </el-form-item>
         </template>
       </div>
@@ -67,7 +70,7 @@ watch(() => formDataVar.value, () => {
 })
 const reset = () => {
   Object.keys(props.options).forEach((key) => {
-    Reflect.set(formDataVar.value,key,props.options[key].default)
+    Reflect.set(formDataVar.value, key, props.options[key].default)
   })
   emit('update:formData', {})
   FormStore().resetForm(FormStore().FormName!)

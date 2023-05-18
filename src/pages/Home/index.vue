@@ -7,6 +7,9 @@
         <template v-if="key === nowSessionName">
           <chat :textList="value" />
         </template>
+        <template v-else-if="!sessionMap.hasOwnProperty(nowSessionName)">
+          <chat :textList="sessionMap['空白对话']" />
+        </template>
       </template>
       <chat-right />
     </div>

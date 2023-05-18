@@ -30,6 +30,7 @@ declare global {
     source: string,
     image?: string,
     modelInfo?: ModelFormData
+    loading?: boolean
   }
   interface ModelPermission {
     id: string;
@@ -90,7 +91,7 @@ declare global {
     hidden: () => void
   }
   interface FormData {
-    stableDiffusion: StableDiffusion
+    stableDiffusion: any
     openAi: OpenaiSetting,
     vits3: vits3
     vits4: vits4
@@ -115,6 +116,7 @@ declare global {
     'vits4': Vits4
     slack: Slack
     [x: string]: Object
+    stableDiffusion: any
   }
   interface Slack {
     channel: string,
@@ -158,16 +160,13 @@ declare global {
     location: string
     isOpen: boolean
   }
-  interface predict<T> {
-    average_duration: number;
-    data: T[];
-    duration: number;
-    is_generating: boolean;
-  }
-  interface predictData {
-    choices: string[],
-    value: string,
-    __type__: string
+  interface stableDiffusionModel {
+    config: any;
+    filename: string;
+    hash: string;
+    model_name: string;
+    sha256: string;
+    title: string;
   }
   interface OpenaiSetting {
     isOpen: boolean,
@@ -211,6 +210,11 @@ declare global {
       };
     },
     slack: {
+      formOptions: {
+        [x: string]: formOption
+      };
+    },
+    stableDiffusion: {
       formOptions: {
         [x: string]: formOption
       };

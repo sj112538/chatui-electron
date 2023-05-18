@@ -317,5 +317,331 @@
         "type": "input-text"
       }
     }
+  },
+  "stableDiffusion": {
+    "formOptions": {
+      "enable_hr": {
+        "info": "是否启用高清重建（Hires. fix）来生成更高质量的图像。",
+        "label": "启用高清重建（Hires. fix）",
+        "type": "checkbox",
+        "required": false,
+        "default": false
+      },
+      "denoising_strength": {
+        "info": "在启用高清重建（Hires. fix）时，进行降噪的程度。",
+        "label": "降噪强度",
+        "type": "slider",
+        "required": false,
+        "default": 0,
+        "minimum": 0,
+        "maximum": 1,
+        "step": 0.01
+      },
+      "firstphase_width": {
+        "info": "第一阶段用于生成潜在向量的宽度大小。",
+        "label": "第一阶段宽度",
+        "type": "number",
+        "required": false,
+        "default": 0
+      },
+      "firstphase_height": {
+        "info": "第一阶段用于生成潜在向量的高度大小。",
+        "label": "第一阶段高度",
+        "type": "number",
+        "required": false,
+        "default": 0
+      },
+      "hr_scale": {
+        "info": "在启用高清重建（Hires. fix）时，图像放大的倍数。",
+        "label": "放大倍数",
+        "type": "slider",
+        "required": false,
+        "default": 2,
+        "minimum": 1,
+        "maximum": 4,
+        "step": 0.05
+      },
+      "hr_upscaler": {
+        "info": "在启用高清重建（Hires. fix）时，使用的放大器类型。",
+        "label": "放大器",
+        "type": "dropdown"
+      },
+      "hr_second_pass_steps": {
+        "info": "在启用高清重建（Hires. fix）时，进行第二遍放大的步骤数。",
+        "label": "第二遍放大的步骤数",
+        "type": "slider",
+        "required": false,
+        "default": 0,
+        "minimum": 0,
+        "maximum": 150,
+        "step": 1
+      },
+      "hr_resize_x": {
+        "info": "在启用高清重建（Hires. fix）时，进行第二遍放大后，调整宽度的大小。",
+        "label": "宽度调整",
+        "type": "number",
+        "required": false,
+        "default": 0
+      },
+      "hr_resize_y": {
+        "info": "在启用高清重建（Hires. fix）时，进行第二遍放大后，调整高度的大小。",
+        "label": "高度调整",
+        "type": "number",
+        "required": false,
+        "default": 0
+      },
+      "prompt": {
+        "info": "文本生成图像的文本输入。",
+        "label": "激励文本",
+        "type": "textarea",
+        "required": true
+      },
+      "styles": {
+        "info": "用于生成样式的文本。",
+        "label": "样式",
+        "type": "list",
+        "required": false,
+        "default": [],
+        "element_type": "text"
+      },
+      "seed": {
+        "info": "用于控制生成图像的随机值种子。",
+        "label": "种子",
+        "type": "number",
+        "required": false,
+        "default": -1
+      },
+      "subseed": {
+        "info": "用于生成图像的随机值的另一个种子。",
+        "label": "变化种子",
+        "type": "number",
+        "required": false,
+        "default": -1
+      },
+      "subseed_strength": {
+        "info": "用于控制变化种子的强度。",
+        "label": "变化种子强度",
+        "type": "slider",
+        "required": false,
+        "default": 0,
+        "minimum": 0,
+        "maximum": 1,
+        "step": 0.01
+      },
+      "seed_resize_from_h": {
+        "info": "用于重新调整图像大小的新高度值。",
+        "label": "重新调整图像大小的新高度值",
+        "type": "number",
+        "required": false,
+        "default": -1
+      },
+      "seed_resize_from_w": {
+        "info": "用于重新调整图像大小的新宽度值。",
+        "label": "重新调整图像大小的新宽度值",
+        "type": "number",
+        "required": false,
+        "default": -1
+      },
+      "sampler_name": {
+        "info": "用于选择采样器的名称。",
+        "label": "采样器",
+        "type": "dropdown",
+        "required": false,
+        "default": "Euler"
+      },
+      "batch_size": {
+        "info": "每个批次中含有图像的数量。",
+        "label": "批次大小",
+        "type": "slider",
+        "required": false,
+        "default": 1,
+        "minimum": 1,
+        "maximum": 8,
+        "step": 1
+      },
+      "n_iter": {
+        "info": "循环次数。",
+        "label": "循环次数",
+        "type": "number",
+        "required": false,
+        "default": 1
+      },
+      "steps": {
+        "info": "生成图像的步骤数量。",
+        "label": "步骤数",
+        "type": "number",
+        "required": false,
+        "default": 50
+      },
+      "cfg_scale": {
+        "info": "图像分辨率和生成速度之间的平衡。值越高，图像越清晰但生成速度越慢。",
+        "label": "CFG Scale",
+        "type": "slider",
+        "required": false,
+        "minimum": 1.0,
+        "maximum": 30.0,
+        "step": 0.5,
+        "default": 7.0
+      },
+      "width": {
+        "info": "生成图像的宽度，值越高，图像越大。",
+        "label": "图像宽度",
+        "type": "slider",
+        "required": false,
+        "minimum": 64,
+        "maximum": 2048,
+        "step": 8,
+        "default": 512
+      },
+      "height": {
+        "info": "生成图像的高度，值越高，图像越大。",
+        "label": "图像高度",
+        "type": "slider",
+        "required": false,
+        "minimum": 64,
+        "maximum": 2048,
+        "step": 8,
+        "default": 512
+      },
+      "restore_faces": {
+        "info": "是否为生成的图像恢复人脸。",
+        "label": "人脸恢复",
+        "type": "checkbox",
+        "required": false,
+        "default": false
+      },
+      "tiling": {
+        "info": "是否启用瓷砖模式，即使用一个模板多次生成图像。",
+        "label": "瓷砖模式",
+        "type": "checkbox",
+        "required": false,
+        "default": false
+      },
+      "do_not_save_samples": {
+        "info": "是否保存生成的图像样本。",
+        "label": "不保存图像样本",
+        "type": "checkbox",
+        "required": false,
+        "default": false
+      },
+      "do_not_save_grid": {
+        "info": "是否保存生成的图像网格。",
+        "label": "不保存图像网格",
+        "type": "checkbox",
+        "required": false,
+        "default": false
+      },
+      "negative_prompt": {
+        "info": "负提示用于限制生成图像的内容，即生成图像不能太接近负提示。",
+        "label": "负提示",
+        "type": "text",
+        "required": false,
+        "default": "string"
+      },
+      "eta": {
+        "info": "学习率的值。",
+        "label": "Eta值",
+        "type": "slider",
+        "required": false,
+        "minimum": 0,
+        "maximum": 1.0,
+        "step": 0.01,
+        "default": 0
+      },
+      "s_churn": {
+        "info": "目标收敛到最大概率分布的最大速度。",
+        "label": "S Churn",
+        "type": "slider",
+        "required": false,
+        "minimum": 0,
+        "maximum": 50,
+        "step": 1,
+        "default": 0
+      },
+      "s_tmax": {
+        "info": "用于控制尾随时间的参数。",
+        "label": "S Tmax",
+        "type": "slider",
+        "required": false,
+        "minimum": 0,
+        "maximum": 250,
+        "step": 1,
+        "default": 0
+      },
+      "s_tmin": {
+        "info": "用于控制尾随时间的参数。",
+        "label": "S Tmin",
+        "type": "slider",
+        "required": false,
+        "minimum": 0,
+        "maximum": 250,
+        "step": 1,
+        "default": 0
+      },
+      "s_noise": {
+        "info": "添加的噪声数量。",
+        "label": "S Noise",
+        "type": "slider",
+        "required": false,
+        "minimum": 0,
+        "maximum": 10,
+        "step": 1,
+        "default": 1
+      },
+      "override_settings": {
+        "info": "覆盖默认设置。",
+        "label": "覆盖默认设置",
+        "type": "input-object",
+        "required": false
+      },
+      "override_settings_restore_afterwards": {
+        "info": "生成图像完成后，是否还原默认设置。",
+        "label": "生成图像完成后，是否还原默认设置",
+        "type": "checkbox",
+        "required": false,
+        "default": true
+      },
+      "script_args": {
+        "info": "脚本参数。",
+        "label": "脚本参数",
+        "type": "array",
+        "required": false,
+        "default": []
+      },
+      "sampler_index": {
+        "info": "使用的采样器的索引。",
+        "label": "采样器索引",
+        "type": "dropdown",
+        "required": true,
+        "default": "Euler"
+      },
+      "script_name": {
+        "info": "脚本名称。",
+        "label": "脚本名称",
+        "type": "text",
+        "required": false,
+        "default": "string"
+      },
+      "send_images": {
+        "info": "是否将生成的图像发送到Gradio",
+        "label": "将生成的图像发送到Gradio",
+        "type": "checkbox",
+        "required": false,
+        "default": true
+      },
+      "save_images": {
+        "info": "生成图像完成后，是否保存图像至本地。",
+        "label": "生成图像完成后，是否保存图像至本地",
+        "type": "checkbox",
+        "required": false,
+        "default": false
+      },
+        "alwayson_scripts": {
+        "info": "始终运行的脚本。",
+        "label": "始终运行的脚本",
+        "type": "input-object",
+        "required": false
+      }
+    }
   }
 }

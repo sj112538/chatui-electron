@@ -1,9 +1,9 @@
-import { saveSession, sessionMap } from "./pages/Home/com/chatLeft"
+import { sessionMap } from "./pages/Home/com/chatLeft"
 import { formData } from "./pages/Home/com/setting/hook/useForm"
 export const init = async () => {
   const slack = useSlack()
   slack.getHistory()
-  slack.messageWS()
+  // slack.messageWS()
   chatglmApi.getToken()
   FormStore().FormInfoInit()
   useAiHandler().ModelInfoInit()
@@ -14,7 +14,6 @@ export const init = async () => {
   formData.value.openAi?.isOpen && useOpenAi.listfineTunes()
   useVits.confirm()
   sessionIngInit()
-  saveSession()
 }
 
 const sessionIngInit = () => {

@@ -48,9 +48,11 @@ class AiHandler extends useAiBase {
     if ((await useOpenAi.getModel()).value) {
       await useOpenAi.send()
     }
-    // if (useStableDiffion.getModel().value) {
-    //   useStableDiffion.send(prompt)
-    // }
+    const reg = /image\sprompt:\{(.*?)\}/
+    const imgPrompt = prompt.match(reg)![1]
+    if ((await useStableDiffion.getModel()).value) {
+      useStableDiffion.send(imgPrompt)
+    }
   }
 }
 const useAiHandler = () => {

@@ -29,6 +29,7 @@ declare module '@vue/runtime-core' {
     ElDescriptionsItem: typeof import('element-plus/es')['ElDescriptionsItem']
     ElDialog: typeof import('element-plus/es')['ElDialog']
     ElDivider: typeof import('element-plus/es')['ElDivider']
+    ElDrawer: typeof import('element-plus/es')['ElDrawer']
     ElForm: typeof import('element-plus/es')['ElForm']
     ElFormItem: typeof import('element-plus/es')['ElFormItem']
     ElIcon: typeof import('element-plus/es')['ElIcon']
@@ -73,6 +74,7 @@ declare module '@vue/runtime-core' {
     Sovits4: typeof import('./../pages/Home/com/setting/sovits4.vue')['default']
     Sovits4Form: typeof import('./../pages/Home/com/chatRight/Forms/sovits4Form.vue')['default']
     StableDiffusion: typeof import('./../pages/Home/com/setting/stableDiffusion.vue')['default']
+    StableDiffusionForm: typeof import('./../pages/Home/com/chatRight/Forms/stableDiffusionForm.vue')['default']
     Test: typeof import('./../pages/Home/com/test/index.vue')['default']
     ToolBar: typeof import('./../pages/Home/com/toolBar/index.vue')['default']
   }

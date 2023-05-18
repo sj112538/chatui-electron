@@ -16,7 +16,7 @@
               fill="#2B85FB" p-id="2908"></path>
           </svg>
         </div>
-        <div style="margin-top: 0.5px;" class="textList" @click="active('textActive')"
+        <!-- <div style="margin-top: 0.5px;" class="textList" @click="active('textActive')"
           :class="textActive ? 'textList active' : 'chat-tool'">
           <svg data-v-b5f035e9="" t="1680784193588" class="icon" viewBox="0 0 1024 1024" version="1.1"
             xmlns="http://www.w3.org/2000/svg" p-id="1840" width="20" height="20">
@@ -24,7 +24,7 @@
               d="M960 96H64c-35.3 0-64 28.6-64 64v752c0 8.8 7.2 16 16 16h992c8.8 0 16-7.2 16-16V160c0-35.4-28.7-64-64-64zM480 860c0 2.2-1.8 4-4 4H68c-2.2 0-4-1.8-4-4V292c0-2.2 1.8-4 4-4h408c2.2 0 4 1.8 4 4v568z m480 0c0 2.2-1.8 4-4 4H548c-2.2 0-4-1.8-4-4V292c0-2.2 1.8-4 4-4h408c2.2 0 4 1.8 4 4v568z"
               p-id="1841" data-spm-anchor-id="a313x.7781069.0.i6" class="selected" fill="#2B85FB"></path>
           </svg>
-        </div>
+        </div> -->
       </div>
     </div>
     <div class="chat-tool-item-right">

@@ -1,7 +1,6 @@
 import { CreateChatCompletionRequest, CreateCompletionRequest, CreateFineTuneRequest, ListFilesResponse, OpenAIFile } from 'openai'
 import Http from '../http'
 import { saveSession } from '@/pages/Home/com/chatLeft'
-import { getinfo } from '@/pages/Home/com/chatRight/com/hook/useMoneyInfo'
 import ClipboardJS from 'clipboard'
 import { ElMessage } from 'element-plus'
 import { useCmd } from '@/pages/Home/com/chat/chat-tool-bar/tools/cmd'
@@ -65,14 +64,6 @@ export const chatgptApi = new class chatgptApi extends Http {
             if (decoded.trim() === "[DONE]") {
               sessionIng.value = '已完成'
               saveSession()
-              // if (useGamePlay().PlayName.value === '控制模式') {
-              //   if (options?.index) {
-              //     useCmd().matchCmd(text.value.message, textList)
-              //   } else {
-              //     useCmd().matchCmd(textList.value[textListLong - 1].message, textList)
-              //   }
-              // }
-              getinfo()
               return;
             } else {
               let json: CreateChatCompletionStreamResponse = JSON.parse(decoded)
@@ -152,9 +143,6 @@ export const chatgptApi = new class chatgptApi extends Http {
       });
     }
     readStream(stream);
-  }
-  getMoneyInfo = async () => {
-    // return this.get('/dashboard/billing/credit_grants')
   }
   getFile = async (): Promise<ListFilesResponse> => {
     return this.get('/v1/files')

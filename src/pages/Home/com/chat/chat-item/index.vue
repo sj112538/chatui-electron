@@ -157,7 +157,7 @@ const generateVoice = () => {
 }
 const insertSession = () => {
   (sessionMap.value[nowSessionName.value] as unknown as Partial<chatCompletion>[]).splice(props.index + 1, 0, {
-    role: 'system',
+    role: 'assistant',
     message: '',
     created: Date.now(),
     createdTime: Dayjs(Date.now()).format('YYYY-MM-DD HH:mm:ss'),

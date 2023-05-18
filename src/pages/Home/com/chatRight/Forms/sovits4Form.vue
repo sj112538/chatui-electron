@@ -1,8 +1,8 @@
 <template>
   <div v-if="visible" class="chatForm">
-    <el-dialog title="VITS" v-model="logVisible" width="50%" center>
+    <el-drawer title="VITS" v-model="logVisible" width="50%" center>
       <simple-form v-model:formData="form.FormData.vits4" :options="form.FormInfo!['vits4'].formOptions"
-        :label-position="'left'" :inline="false">
+        :label-position="'top'" :inline="false">
         <template #speakerIdTit="{ option }">
           <template v-if="option.key === 'speakerId'">
             <el-popover :show-after="300" placement="top-start" :title="option.key" :width="600" trigger="hover"
@@ -22,7 +22,7 @@
           </template>
         </template>
       </simple-form>
-    </el-dialog>
+    </el-drawer>
     <el-button type="primary" class="btn" @click="logVisible = true">配置VITS</el-button>
     <el-button type="primary" v-if="vits4_is_open" class="btn" @click="vits4Run"
       :loading="vits4Loading">结束VITS4</el-button>

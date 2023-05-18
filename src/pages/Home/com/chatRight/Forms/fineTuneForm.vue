@@ -1,10 +1,10 @@
 <template>
   <div v-if="visible" class="chatForm">
-    <el-dialog title="openAi微调" v-model="logVisible" width="50%" center>
-      <simple-form label-position="left" v-model:formData="form.FormData.openAi微调" :options="options">
+    <el-drawer title="openAi微调" v-model="logVisible" width="50%" center>
+      <simple-form label-position="top" v-model:formData="form.FormData.openAi微调" :options="options">
       </simple-form>
       <el-button type="primary" size="default" @click="createFineTune" :loading="createFineTuneLoading">创建微调</el-button>
-    </el-dialog>
+    </el-drawer>
     <el-button class="btn" type="primary" @click="logVisible = true">openApi微调</el-button>
   </div>
 </template>
@@ -65,8 +65,8 @@ defineExpose({
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+
   .label {
-    width: 235px;
     line-height: 35px;
   }
 }

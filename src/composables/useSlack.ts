@@ -38,15 +38,9 @@ class Slack {
   }
   messageWS = async () => {
     const ws = new WebSocket(`ws://127.0.0.1:${GLOB.VITE_API_PORT}/slackWs`);
-    ws.addEventListener('open', () => {
-      console.log('Connected to WebSocket server');
-    });
     ws.addEventListener('message', (event) => {
       const message = JSON.parse(event.data);
-      console.log(event);
-      if (message.type === 'message') {
-        console.log(`Received a message from Slack: ${message.data.text}`);
-      }
+      console.log(message);
     });
   }
 }

@@ -7,7 +7,7 @@
     </template>
     <template #content="{ data }">
       <div :class="data?.id === Models?.id ? 'linkItem selectLink' : 'linkItem'">
-        <div class="linkItemBox" @click="setModel(data)">
+        <div class="linkItemBox" v-loadings="data.loading" @click="setModel(data)">
           <template v-if="info">
             <Model @delete="deleteModel(data.id)" :show-action="Boolean(data.parent)"
               :pop-content="info[data.id]?.info.zh" :modelItem="data" />
@@ -23,20 +23,25 @@ import { Search } from '@element-plus/icons-vue'
 const { deleteModel } = chatgptApi
 const search = useSearch()
 const useAiMap = {
-  'openai': (item: Model) => useOpenAi.setModel(item),
-  'system': (item: Model) => useOpenAi.setModel(item),
-  'openai-dev': (item: Model) => useOpenAi.setModel(item),
-  'openai-internal': (item: Model) => useOpenAi.setModel(item),
-  'stableDiffusion': (item: Model) => useStableDiffion.setModel(item),
-  'vits': (item: Model) => useVits.setModel(item),
+  'openai': async (item: Model) => await useOpenAi.setModel(item),
+  'system': async (item: Model) => await useOpenAi.setModel(item),
+  'openai-dev': async (item: Model) => await useOpenAi.setModel(item),
+  'openai-internal': async (item: Model) => await useOpenAi.setModel(item),
+  'stableDiffusion': async (item: Model) => await useStableDiffion.setModel(item),
+  'vits': async (item: Model) => useVits.setModel(item),
 }
 type useAiMapKey = keyof typeof useAiMap
 // setModel
-const setModel = (item: Model) => {
-  if (useAiMap[item.owned_by as useAiMapKey]) {
-    useAiMap[item.owned_by as useAiMapKey](item)
-  } else {
-    useOpenAi.setModel(item)
+const setModel = async (item: Model) => {
+  try {
+    item.loading = true
+    if (useAiMap[item.owned_by as useAiMapKey]) {
+      await useAiMap[item.owned_by as useAiMapKey](item)
+    } else {
+      await useOpenAi.setModel(item)
+    }
+  } finally {
+    item.loading = false
   }
 }
 // 获取模型

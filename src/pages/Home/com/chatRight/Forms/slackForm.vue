@@ -1,8 +1,8 @@
 <template>
   <div v-if="visible" class="chatForm">
-    <el-dialog title="slack" v-model="logVisible" width="50%" center>
+    <el-drawer title="slack" v-model="logVisible" center>
       <simple-form v-model:formData="form.FormData.slack" :options="form.FormInfo!.slack.formOptions"
-        :label-position="'left'" :inline="false">
+        :label-position="'top'" :inline="false">
         <template #channelTit="{ option }">
           <template v-if="option.key === 'channel'">
             <el-popover :show-after="300" placement="top-start" :title="option.key" :width="600" trigger="hover"
@@ -40,8 +40,8 @@
           </template>
         </template>
       </simple-form>
-    </el-dialog>
-    <el-button  class="btn" type="primary" @click="logVisible = true">配置slack</el-button>
+    </el-drawer>
+    <el-button class="btn" type="primary" @click="logVisible = true">配置slack</el-button>
   </div>
 </template>
 <script setup lang='ts'>

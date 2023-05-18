@@ -70,13 +70,13 @@ export class Session {
     const textList = ref<Partial<chatCompletion>[]>([])
     useSession(textList).addSession('空白对话')
     nowSessionName.value = '空白对话'
-    saveSession()
   }
   setSession = (name: sessionMapKey) => {
     nowSessionName.value = name
   }
   getSession = async () => {
     sessionMap.value = CircularJSON.parse(await Localforage.getItem('sessionMap') as string) || {}
+    saveSession()
   }
 
   insertSession = (index: number) => {
