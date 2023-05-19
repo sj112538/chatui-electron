@@ -1,9 +1,10 @@
 import { formData } from "@/pages/Home/com/setting/hook/useForm"
 import useAiBase from './useAiBase'
 export const nowImgModel = ref<Model>()
-class useStableDiffion extends useAiBase {
-  send(prompt: string): void {
-    SDApi.generate(prompt)
+export const SD_open = ref<boolean>(false)
+class useStableDiffuision extends useAiBase {
+  async send(prompt: string) {
+    return await SDApi.generate(prompt)
   }
   getConfig = () => {
     return formData.value.stableDiffusion
@@ -12,7 +13,7 @@ class useStableDiffion extends useAiBase {
     const { data } = await SDApi.checkModel(Model.id)
     if (data[0].value === Model.id) {
       await Localforage.setItem('nowImgModel', JSON.stringify(Model))
-      ;(await this.getModel()).value = Model
+        ; (await this.getModel()).value = Model
     }
   }
   getModel = async () => {
@@ -30,6 +31,25 @@ class useStableDiffion extends useAiBase {
       setData(JSON.parse(await Localforage.getItem('stableDiffusionModels') as string))
     }
   }
+  confirm = async () => {
+    if (await SDApi.confirm()) {
+      SD_open.value = true
+    }
+  }
+  progress = () => {
+    const inter = setInterval(async () => {
+      if (stableDiffuisionProgress.value.progress !== 0) {
+        stableDiffuisionProgress.value = await SDApi.progress()
+        return
+      }
+      clearInterval(inter)
+    }, 1500)
+  }
+  exit = async () => {
+    await SDApi.exit()
+  }
 }
-
-export default new useStableDiffion
+export const stableDiffuisionProgress = ref({
+  progress: 0
+})
+export default new useStableDiffuision

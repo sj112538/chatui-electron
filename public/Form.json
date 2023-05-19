@@ -320,6 +320,18 @@
   },
   "stableDiffusion": {
     "formOptions": {
+      "enable_hr": {
+        "info": "启用高清图像",
+        "label": "Enable Hr",
+        "default": false,
+        "type": "checkbox"
+      },
+      "denoising_strength": {
+        "info": "重绘幅度",
+        "label": "Denoising Strength",
+        "default": 0.7,
+        "type": "input-number"
+      },
       "firstphase_width": {
         "info": "第一阶段采样的图像宽度。",
         "label": "第一阶段图像宽度",
@@ -452,7 +464,7 @@
         "label": "优化步数",
         "type": "input-number",
         "required": false,
-        "default": 50,
+        "default": 26,
         "mini": 1
       },
       "cfg_scale": {
@@ -594,7 +606,7 @@
         "label": "采样器索引",
         "type": "input-text",
         "required": false,
-        "default": "Euler"
+        "default": ""
       },
       "script_name": {
         "info": "要调用的脚本的名称。",

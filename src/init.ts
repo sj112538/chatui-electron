@@ -4,6 +4,7 @@ export const init = async () => {
   const slack = useSlack()
   slack.getHistory()
   // slack.messageWS()
+  useStableDiffuision.confirm()
   chatglmApi.getToken()
   FormStore().FormInfoInit()
   useAiHandler().ModelInfoInit()

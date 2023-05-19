@@ -37,4 +37,19 @@ export const SDApi = new class stableDiffusionApi extends Http {
       body: { ...FormStore().FormData.stableDiffusion, Prompt: prompt }, allUrl: `http://${formData.value?.stableDiffusion?.location}/sdapi/v1/txt2img`
     })
   }
+  confirm = async () => {
+    return await this.get(undefined, {
+      allUrl: `http://${formData.value?.stableDiffusion?.location}/app_id`
+    })
+  }
+  progress = async (isSkip: boolean = false) => {
+    return await this.get(undefined, {
+      allUrl: `http://${formData.value?.stableDiffusion?.location}/sdapi/v1/progress?skip_current_image=${isSkip}`
+    })
+  }
+  exit = async () => {
+    return await this.get(undefined, {
+      allUrl: `http://${formData.value?.stableDiffusion?.location}/sdapi/v1/exit`
+    })
+  }
 }

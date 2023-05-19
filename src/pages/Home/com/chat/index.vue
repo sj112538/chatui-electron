@@ -19,6 +19,7 @@
         </div>
       </div>
     </div>
+    <el-progress v-if="stableDiffuisionProgress.progress !== 0" :percentage="+(stableDiffuisionProgress.progress * 100).toFixed(0)" />
     <div class="edit">
       <chat-tool-bar></chat-tool-bar>
       <div class="sendInputBox">
@@ -36,10 +37,11 @@ import ClipboardJS from 'clipboard'
 import GamePlay from './GamePlay/index.vue'
 import { saveSession } from '../chatLeft';
 import chatItem from './chat-item/index.vue'
+import { stableDiffuisionProgress } from '@/composables/useStableDiffuision';
 let Models = ref()
 const initModel = async () => {
   const textModel = await useOpenAi.getModel()
-  const imgModel = await useStableDiffion.getModel()
+  const imgModel = await useStableDiffuision.getModel()
   const voiceModel = useVits.getModel()
   Models.value = markRaw([textModel, imgModel, voiceModel])
 }

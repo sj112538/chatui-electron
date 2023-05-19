@@ -6,7 +6,7 @@ import { nowSessionName } from '@/pages/Home/com/chatLeft'
 class AiHandler extends useAiBase {
   listModels = async (setData: any) => {
     formData.value.openAi?.isOpen && useOpenAi.listModels(setData)
-    formData.value.stableDiffusion?.isOpen && useStableDiffion.listModels(setData);
+    formData.value.stableDiffusion?.isOpen && useStableDiffuision.listModels(setData);
     if (settingStore().FormData.vits3?.isOpen || settingStore().FormData.vits4?.isOpen) {
       useVits.listModels(setData)
     }
@@ -47,11 +47,6 @@ class AiHandler extends useAiBase {
     }
     if ((await useOpenAi.getModel()).value) {
       await useOpenAi.send()
-    }
-    const reg = /image\sprompt:\{(.*?)\}/
-    const imgPrompt = prompt.match(reg)![1]
-    if ((await useStableDiffion.getModel()).value) {
-      useStableDiffion.send(imgPrompt)
     }
   }
 }
