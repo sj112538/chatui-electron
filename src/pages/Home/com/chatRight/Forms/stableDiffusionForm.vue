@@ -6,7 +6,7 @@
       </simple-form>
     </el-drawer>
     <el-button type="primary" class="btn" @click="logVisible = true">配置stableDiffusion</el-button>
-    <el-button type="primary" v-if="SD_open" class="btn" @click="useStableDiffuision.exit()"
+    <el-button type="primary" v-if="SD_open" class="btn" @click="usestableDiffusion.exit()"
       :loading="stableDiffusionLoading">结束stableDiffusion</el-button>
 
     <el-button type="primary" class="btn" @click="stableDiffusionRun" :loading="stableDiffusionLoading"
@@ -16,8 +16,8 @@
 <script setup lang='ts'>
 import { FormStore } from '@/store/Form/FormStore';
 import { useTools } from '../../chat/chat-tool-bar';
-import { SD_open } from '@/composables/useStableDiffuision';
-import useStableDiffuision from '@/composables/useStableDiffuision'
+import { SD_open } from '@/composables/usestableDiffusion';
+import usestableDiffusion from '@/composables/usestableDiffusion'
 const name = ref('stableDiffusion')
 const visible = ref<boolean>()
 const logVisible = ref<boolean>(false)
@@ -57,7 +57,7 @@ print(port)
     const SDIsRun = setInterval(async () => {
       if (isWsOpen('command')) {
         if (form.FormData.vits4.location) {
-          await useStableDiffuision.confirm()
+          await usestableDiffusion.confirm()
           stableDiffusionLoading.value = false
         }
         clearInterval(SDIsRun)

@@ -27,7 +27,7 @@ const useAiMap = {
   'system': async (item: Model) => await useOpenAi.setModel(item),
   'openai-dev': async (item: Model) => await useOpenAi.setModel(item),
   'openai-internal': async (item: Model) => await useOpenAi.setModel(item),
-  'stableDiffusion': async (item: Model) => await useStableDiffuision.setModel(item),
+  'stableDiffusion': async (item: Model) => await usestableDiffusion.setModel(item),
   'vits': async (item: Model) => useVits.setModel(item),
 }
 type useAiMapKey = keyof typeof useAiMap

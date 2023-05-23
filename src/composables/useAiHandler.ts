@@ -6,7 +6,7 @@ import { nowSessionName } from '@/pages/Home/com/chatLeft'
 class AiHandler extends useAiBase {
   listModels = async (setData: any) => {
     formData.value.openAi?.isOpen && useOpenAi.listModels(setData)
-    formData.value.stableDiffusion?.isOpen && useStableDiffuision.listModels(setData);
+    formData.value.stableDiffusion?.isOpen && usestableDiffusion.listModels(setData);
     if (settingStore().FormData.vits3?.isOpen || settingStore().FormData.vits4?.isOpen) {
       useVits.listModels(setData)
     }

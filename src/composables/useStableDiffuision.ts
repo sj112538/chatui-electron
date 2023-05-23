@@ -2,7 +2,7 @@ import { formData } from "@/pages/Home/com/setting/hook/useForm"
 import useAiBase from './useAiBase'
 export const nowImgModel = ref<Model>()
 export const SD_open = ref<boolean>(false)
-class useStableDiffuision extends useAiBase {
+class usestableDiffusion extends useAiBase {
   async send(prompt: string) {
     return await SDApi.generate(prompt)
   }
@@ -38,8 +38,8 @@ class useStableDiffuision extends useAiBase {
   }
   progress = () => {
     const inter = setInterval(async () => {
-      if (stableDiffuisionProgress.value.progress !== 0) {
-        stableDiffuisionProgress.value = await SDApi.progress()
+      if (stableDiffusionProgress.value.progress !== 0) {
+        stableDiffusionProgress.value = await SDApi.progress()
         return
       }
       clearInterval(inter)
@@ -49,7 +49,7 @@ class useStableDiffuision extends useAiBase {
     await SDApi.exit()
   }
 }
-export const stableDiffuisionProgress = ref({
+export const stableDiffusionProgress = ref({
   progress: 0
 })
-export default new useStableDiffuision
+export default new usestableDiffusion

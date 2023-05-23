@@ -16,6 +16,7 @@
       <chat-right />
     </div>
   </div>
+  <test></test>
 </template>
 <script setup lang='ts'>
 import { sessionMap, nowSessionName, useSession } from './com/chatLeft';

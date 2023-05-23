@@ -1,6 +1,6 @@
 @echo off
 setlocal EnableDelayedExpansion
-
+pip install fastapi
 set port1=4000
 set port2=5000
 set port3=6000

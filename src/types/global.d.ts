@@ -329,6 +329,7 @@ declare global {
   interface TermWsMap {
     python: WebSocket | null
     command: WebSocket | null
+    canvas?: any
   }
   type TermWsMapKey = keyof TermWsMap
 }

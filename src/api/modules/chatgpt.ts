@@ -4,7 +4,7 @@ import { saveSession } from '@/pages/Home/com/chatLeft'
 import ClipboardJS from 'clipboard'
 import { ElMessage } from 'element-plus'
 import { useCmd } from '@/pages/Home/com/chat/chat-tool-bar/tools/cmd'
-import { SD_open, stableDiffuisionProgress } from '@/composables/useStableDiffuision'
+import { SD_open, stableDiffusionProgress } from '@/composables/usestableDiffusion'
 export const chatgptApi = new class chatgptApi extends Http {
   async chatCompletion(data: CreateChatCompletionRequest, textList: any) {
     const response: chatCompletion = await this.post('/v1/chat/completions', { body: data })
@@ -67,16 +67,16 @@ export const chatgptApi = new class chatgptApi extends Http {
               setTimeout(async () => {
                 const reg = /ImagePrompt\{(.+?)\}/
                 const imgPrompt = textList.value[textListLong - 1].moreTextList.at(-1).value.message.match(reg)
-                if ((await useStableDiffuision.getModel()).value && SD_open.value && imgPrompt) {
-                  stableDiffuisionProgress.value.progress = 0.01
-                  useStableDiffuision.progress()
+                if ((await usestableDiffusion.getModel()).value && SD_open.value && imgPrompt) {
+                  stableDiffusionProgress.value.progress = 0.01
+                  usestableDiffusion.progress()
                   try {
-                    const res = await useStableDiffuision.send(imgPrompt[1])
+                    const res = await usestableDiffusion.send(imgPrompt[1])
                     textList.value[textListLong - 1].moreTextList.at(-1).value.message =
                       textList.value[textListLong - 1].moreTextList.at(-1).value.message +
                       '\n' + `![Alt Text](data:image/png;base64,${res.images[0]})`
                   } finally {
-                    stableDiffuisionProgress.value.progress = 0
+                    stableDiffusionProgress.value.progress = 0
                   }
                 }
               }, 100);

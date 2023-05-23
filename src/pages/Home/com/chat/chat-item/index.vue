@@ -84,9 +84,9 @@
     </div>
     <v-md-editor v-if="(textItem as any).edit" v-model="textItem.message"></v-md-editor>
     <v-md-preview v-else :text="textItem.message" />
-    <template v-if="IsTermOpen">
+    <template v-if="chatCodeShow">
       <el-divider style="width: calc(100% - 30px);margin: 0 auto;" />
-      <div ref="xtermRef" />
+      <div ref="xtermRef"></div>
     </template>
   </div>
   <div class="bottomAction">
@@ -99,6 +99,7 @@
 import { nowSessionName, saveSession, sessionMap } from '../../chatLeft';
 import { Edit, CopyDocument, Close, Check, Refresh, Headset, Bottom } from '@element-plus/icons-vue'
 import { VMdPreview, VMdEditor } from '@/components/index'
+import { useThree } from '@/composables/useThree';
 const roleList = [{
   label: '用户',
   value: 'user'
@@ -191,12 +192,22 @@ const xtermRef = ref<HTMLElement | undefined>()
 const isWsOpen = ref<((type: TermWsMapKey | undefined) => boolean)>()
 const exCmd = async (node: HTMLElement, cmd: string) => {
   const type = node.offsetParent?.className.split('-').at(-1) as TermWsMapKey | undefined
+  if (type === 'canvas') {
+    chatCodeShow.value = true
+    await nextTick()
+    const canvas = document.createElement('canvas')
+    canvas.style.height = '100%'
+    canvas.style.width = '100%'
+    xtermRef.value?.appendChild(canvas)
+    useThree(canvas!, cmd)
+    return
+  }
   const { init, excute } = useCommand(xtermRef)
   if (isWsOpen.value && isWsOpen.value!(type)) {
     excute(cmd, type)
     return
   }
-  IsTermOpen.value = true
+  chatCodeShow.value = true
   await nextTick()
   isWsOpen.value = init()
   const inter = setInterval(() => {
@@ -206,7 +217,7 @@ const exCmd = async (node: HTMLElement, cmd: string) => {
     }
   }, 100)
 }
-const IsTermOpen = ref<boolean>(false)
+const chatCodeShow = ref<boolean>(false)
 defineExpose({
   currentChange
 })
