@@ -3,6 +3,14 @@ import { formData } from '@/pages/Home/com/setting/hook/useForm'
 import { hash } from 'ohash'
 
 export const SDApi = new class stableDiffusionApi extends Http {
+  open = async () => {
+    return this.post('post', {
+      allUrl: `http://127.0.0.1:${GLOB.VITE_PYTHON_PORT}/open/StableDiffusion`,
+      body: {
+          args: ['--nowebui']
+      }
+    })
+  }
   getModels = async () => {
     const response: stableDiffusionModel[] = await this.get(undefined, {
       allUrl: `http://${formData.value?.stableDiffusion?.location}/sdapi/v1/sd-models/`

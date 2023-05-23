@@ -3,6 +3,9 @@ import useAiBase from './useAiBase'
 export const nowImgModel = ref<Model>()
 export const SD_open = ref<boolean>(false)
 class usestableDiffusion extends useAiBase {
+  async open() {
+   await SDApi.open()
+  }
   async send(prompt: string) {
     return await SDApi.generate(prompt)
   }

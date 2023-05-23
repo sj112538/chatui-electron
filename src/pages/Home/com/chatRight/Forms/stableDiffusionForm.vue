@@ -15,7 +15,6 @@
 </template>
 <script setup lang='ts'>
 import { FormStore } from '@/store/Form/FormStore';
-import { useTools } from '../../chat/chat-tool-bar';
 import { SD_open } from '@/composables/usestableDiffusion';
 import usestableDiffusion from '@/composables/usestableDiffusion'
 const name = ref('stableDiffusion')
@@ -33,33 +32,11 @@ const stableDiffusionLoading = ref<boolean>(false)
 const stableDiffusionRun = async () => {
   stableDiffusionLoading.value = true
   try {
-    useTools().nowActive.value = 'cmdActive'
-    const { init, excute } = useCommand()
-    const isWsOpen = init()
-    const inter = setInterval(async () => {
-      if (isWsOpen('python')) {
-        const command = `
-import socket
-import subprocess
-import os
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.bind(('localhost', 0))
-port = s.getsockname()[1]
-s.close()
-print(port)
-      `.trim()
-        const data = await excute(command, 'python', true)
-        form.FormData.vits4.location = data.result.trim()
-        excute(['cls', 'cd ..', 'cd server/stableDiffiusion', 'A启动脚本.bat'], 'command')
-        clearInterval(inter)
-      }
-    }, 500)
+    await usestableDiffusion.open()
     const SDIsRun = setInterval(async () => {
-      if (isWsOpen('command')) {
-        if (form.FormData.vits4.location) {
-          await usestableDiffusion.confirm()
-          stableDiffusionLoading.value = false
-        }
+      if (form.FormData.vits4.location) {
+        await usestableDiffusion.confirm()
+        stableDiffusionLoading.value = false
         clearInterval(SDIsRun)
       }
     }, 1000)

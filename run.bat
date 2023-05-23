@@ -67,5 +67,5 @@ if not defined found_vite_python_port (
 
 start /B "" cmd /c "npx vite --port=%port1%"
 start /B "" cmd /c "cd nodeServer & nodemon index.js %port2%" 
-start /B "" cmd /c "cd server & python api.py %port3%"
+start /B "" cmd /c "cd ..\server & python api.py %port3%"
 pause
