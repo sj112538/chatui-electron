@@ -45,6 +45,7 @@ declare global {
   const errHandler: typeof import('../utils/modules/others/errHandler')['errHandler']
   const escapeRegExp: typeof import('../utils/modules/string/escapeRegExp')['escapeRegExp']
   const extendRef: typeof import('@vueuse/core')['extendRef']
+  const findAndUseOpenPort: typeof import('../utils/modules/net/freePort')['findAndUseOpenPort']
   const fineTuneList: typeof import('../composables/useOpenAi')['fineTuneList']
   const fuzzyMatch: typeof import('../utils/modules/string/fuzzyMatch')['fuzzyMatch']
   const getCurrentInstance: typeof import('vue')['getCurrentInstance']

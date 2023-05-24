@@ -57,7 +57,6 @@ declare module '@vue/runtime-core' {
     Home: typeof import('./../pages/Home/index.vue')['default']
     Model: typeof import('./../pages/Home/com/Model/index.vue')['default']
     ModelList: typeof import('./../pages/Home/com/chatLeft/com/modelList.vue')['default']
-    MoneyInfo: typeof import('./../pages/Home/com/chatRight/com/moneyInfo.vue')['default']
     OpenAi: typeof import('./../pages/Home/com/setting/openAi.vue')['default']
     Operate: typeof import('./../pages/Home/com/Model/operate/index.vue')['default']
     OverflowTooltip: typeof import('./../components/overflowTooltip/overflowTooltip.vue')['default']

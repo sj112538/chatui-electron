@@ -7,6 +7,8 @@ import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import vueJsx from '@vitejs/plugin-vue-jsx';
 import optimizer from "vite-plugin-optimizer";
 import { devPlugin, getReplacer } from "./src/plugins/devPlugin"
+import topLevelAwait from 'vite-plugin-top-level-await'
+
 declare interface ViteEnv {
   VITE_ENV: string,
   VITE_API_KEY: string
@@ -20,6 +22,10 @@ export default defineConfig(({ mode }) => {
       GLOB: Object.freeze(env),
     },
     plugins: [
+      topLevelAwait({
+        promiseExportName: '__tla',
+        promiseImportName: i => `__tla_${i}`
+      }),
       vueJsx(),
       vue(),
       Component({
@@ -39,7 +45,7 @@ export default defineConfig(({ mode }) => {
         dirs: ["./src/store/**", "./src/composables/*", "./src/utils/**", "./src/api/**"],
         resolvers: [ElementPlusResolver()]
       }),
-      // optimizer(getReplacer()), devPlugin()
+      optimizer(getReplacer()), devPlugin()
     ],
     resolve: {
       alias: {

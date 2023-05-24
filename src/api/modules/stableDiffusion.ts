@@ -7,7 +7,7 @@ export const SDApi = new class stableDiffusionApi extends Http {
     return this.post('post', {
       allUrl: `http://127.0.0.1:${GLOB.VITE_PYTHON_PORT}/open/StableDiffusion`,
       body: {
-          args: ['--nowebui']
+          args: ['--xformers','--nowebui' ]
       }
     })
   }

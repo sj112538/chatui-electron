@@ -1,6 +1,8 @@
 import { sessionMap } from "./pages/Home/com/chatLeft"
 import { formData } from "./pages/Home/com/setting/hook/useForm"
+import { findAndUseOpenPort } from "./utils/modules/net/freePort"
 export const init = async () => {
+  console.log(findAndUseOpenPort(4000));
   const slack = useSlack()
   slack.getHistory()
   // slack.messageWS()
