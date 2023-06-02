@@ -1,3 +1,4 @@
+import { pythonPort } from '@/init'
 import { debounce } from 'lodash'
 import { ref } from 'vue'
 import { Terminal } from "xterm"
@@ -8,6 +9,7 @@ const termWsMap = ref<TermWsMap | null>({
   command: null
 })
 let term = ref<Terminal>()
+
 export const useCommand = (terminal?: Ref<HTMLElement | undefined>) => {
   const fitAddon = new FitAddon()
   let loading = ref(false)
@@ -51,9 +53,6 @@ export const useCommand = (terminal?: Ref<HTMLElement | undefined>) => {
     }, 5)
   }
   const initWS = () => {
-    if (!termWsMap.value?.python) {
-      createWS('python', `ws://127.0.0.1:${GLOB.VITE_PYTHON_PORT}/execute`)
-    }
     if (!termWsMap.value?.command) {
       createWS('command', `ws://127.0.0.1:${GLOB.VITE_API_PORT}/cmd`)
     }

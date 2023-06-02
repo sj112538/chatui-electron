@@ -19,7 +19,8 @@
         </div>
       </div>
     </div>
-    <el-progress v-if="stableDiffusionProgress.progress !== 0" :percentage="+(stableDiffusionProgress.progress * 100).toFixed(0)" />
+    <el-progress v-if="stableDiffusionProgress.progress !== 0"
+      :percentage="+(stableDiffusionProgress.progress * 100).toFixed(0)" />
     <div class="edit">
       <chat-tool-bar></chat-tool-bar>
       <div class="sendInputBox">
@@ -51,7 +52,7 @@ const props = defineProps({
   textList: Object as PropType<Ref<chatCompletion[]>>
 })
 textList.value = props.textList as any
-textList.value.forEach((item: any) => {
+Array.isArray(textList.value) && textList.value.forEach((item: any) => {
   const clipboard = new ClipboardJS('.copy-' + item.created);
   clipboard.on('success', () => {
     ElMessage({

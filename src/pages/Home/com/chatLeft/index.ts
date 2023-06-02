@@ -68,7 +68,7 @@ export class Session {
   }
   sessionBuilder = () => {
     const textList = ref<Partial<chatCompletion>[]>([])
-    useSession(textList).addSession('空白对话')
+    this.addSession('空白对话', textList.value)
     nowSessionName.value = '空白对话'
   }
   setSession = (name: sessionMapKey) => {

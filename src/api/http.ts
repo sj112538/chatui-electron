@@ -11,7 +11,7 @@ const useFetch = async (url: string, options?: RequestParams): Promise<any> => {
   const reqUrl = options?.allUrl || GLOB.VITE_OPENAI + url
   const key = hash(JSON.stringify(options) + url)
   const customHeaders = {
-    Authorization: 'Bearer ' + formData.value.openAi.apiKey,
+    Authorization: 'Bearer ' + formData.value.openAi?.apiKey,
     "Content-Type": "application/json",
     Accept: "application/json",
     ...options?.headers

@@ -39,6 +39,8 @@ class AiHandler extends useAiBase {
       return
     }
     this.editorArea.value = ''
+    console.log(this.textList.value);
+    
     useOpenAi.setTextList(this.textList)
     useOpenAi.addUserSession(prompt)
     if (nowSessionName.value === '0') {

@@ -266,7 +266,7 @@ watchEffect(() => {
   allSelect.value = allSelected; // 所有元素是否都被选择
 })
 if (!props.multiple) {
-  watch(() => selection.value, (e) => {
+  watch(() => selection.value, (e: string | any[]) => {
     if (e.length > 1) {
       const value = selection.value.shift()
     }

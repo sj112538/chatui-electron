@@ -21,9 +21,7 @@
 <script setup lang='ts'>
 import { sessionMap, nowSessionName, useSession } from './com/chatLeft';
 import { loading } from '@/composables/useLoading'
-const { sessionBuilder, getSession } = useSession()
-getSession()
-sessionBuilder()
+
 const theme = ref<string>("#FFF")
 </script>
 <style lang="scss">

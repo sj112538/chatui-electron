@@ -105,6 +105,9 @@ class useOpenAi extends useAiBase {
     return result
   }
   sendChatCompletion = async (options?: resetSessionOptions) => {
+    if(!Array.isArray(this.textList.value)){
+      return
+    }
     const messages: ChatCompletionRequestMessage[] = this.textList.value.map(e => {
       if (e.isSkip) {
         return {} as any

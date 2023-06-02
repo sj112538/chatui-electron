@@ -18,19 +18,23 @@ class Slack {
     return result
   }
   getHistory = async () => {
-    const { result } = await slackApi.history(FormStore().FormData.slack) as { result: ConversationsHistoryResponse }
-    history.value = result.messages!.reverse().map((e) => {
-      return {
-        title: 'Claude',
-        role: e.bot_profile?.name === 'Claude' ? 'assistant' : 'user',
-        owned_by: e.bot_profile?.name === 'Claude' ? 'Claude' : 'user',
-        message: e.text,
-        created: +e.ts!.replace(/\./g, ''),
-        createdTime: Dayjs(+e.ts! * 1000).format('YYYY-MM-DD HH:mm:ss')
-      }
-    })
-    useSession().addSession('0', history.value)
-    return result
+    try {
+      const { result } = await slackApi.history(FormStore().FormData.slack) as { result: ConversationsHistoryResponse }
+      history.value = result.messages!.reverse().map((e) => {
+        return {
+          title: 'Claude',
+          role: e.bot_profile?.name === 'Claude' ? 'assistant' : 'user',
+          owned_by: e.bot_profile?.name === 'Claude' ? 'Claude' : 'user',
+          message: e.text,
+          created: +e.ts!.replace(/\./g, ''),
+          createdTime: Dayjs(+e.ts! * 1000).format('YYYY-MM-DD HH:mm:ss')
+        }
+      })
+      useSession().addSession('0', history.value)
+      return result
+    } catch (err) {
+      console.log('claude未启用，或者配置出错');
+    }
   }
   test = async () => {
     const { result } = await slackApi.test(FormStore().FormData.slack)

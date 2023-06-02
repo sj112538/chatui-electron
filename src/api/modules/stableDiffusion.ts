@@ -1,3 +1,4 @@
+import { pythonPort } from '@/init'
 import Http from '../http'
 import { formData } from '@/pages/Home/com/setting/hook/useForm'
 import { hash } from 'ohash'
@@ -5,13 +6,14 @@ import { hash } from 'ohash'
 export const SDApi = new class stableDiffusionApi extends Http {
   open = async () => {
     return this.post('post', {
-      allUrl: `http://127.0.0.1:${GLOB.VITE_PYTHON_PORT}/open/StableDiffusion`,
+      allUrl: `http://127.0.0.1:${pythonPort.value}/open/StableDiffusion`,
       body: {
-          args: ['--xformers','--nowebui' ]
+        args: ['--xformers', '--nowebui']
       }
     })
   }
   getModels = async () => {
+    if (formData.value?.stableDiffusion?.location) return
     const response: stableDiffusionModel[] = await this.get(undefined, {
       allUrl: `http://${formData.value?.stableDiffusion?.location}/sdapi/v1/sd-models/`
     })
@@ -46,6 +48,7 @@ export const SDApi = new class stableDiffusionApi extends Http {
     })
   }
   confirm = async () => {
+    if (!formData.value?.stableDiffusion?.location) return
     return await this.get(undefined, {
       allUrl: `http://${formData.value?.stableDiffusion?.location}/app_id`
     })

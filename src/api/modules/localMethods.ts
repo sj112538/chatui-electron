@@ -1,3 +1,4 @@
+import { pythonPort } from '@/init'
 import Http from '../http'
 export const localApi = new class localFiles extends Http {
   getDiskInfo() {
@@ -15,7 +16,7 @@ export const localApi = new class localFiles extends Http {
   }
   excuteCmd(command: string, type: TermWsMapKey) {
     return this.post('post', {
-      allUrl: `http://127.0.0.1:${GLOB.VITE_PYTHON_PORT}/excuteNonRealTime`,
+      allUrl: `http://127.0.0.1:${pythonPort.value}/excuteNonRealTime`,
       body: {
         command,
         type

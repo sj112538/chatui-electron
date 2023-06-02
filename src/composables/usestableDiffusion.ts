@@ -4,7 +4,7 @@ export const nowImgModel = ref<Model>()
 export const SD_open = ref<boolean>(false)
 class usestableDiffusion extends useAiBase {
   async open() {
-   await SDApi.open()
+    await SDApi.open()
   }
   async send(prompt: string) {
     return await SDApi.generate(prompt)
@@ -24,7 +24,7 @@ class usestableDiffusion extends useAiBase {
     return nowImgModel
   }
   listModels = async (setData: any) => {
-    if (formData.value.stableDiffusion?.isOpen) {
+    if (formData.value.stableDiffusion?.isOpen && formData.value?.stableDiffusion?.location) {
       if (!JSON.parse(await Localforage.getItem('stableDiffusionModels') as string)) {
         const data = await SDApi.getModels()
         setData(data, 'model')

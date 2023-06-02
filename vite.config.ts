@@ -45,7 +45,7 @@ export default defineConfig(({ mode }) => {
         dirs: ["./src/store/**", "./src/composables/*", "./src/utils/**", "./src/api/**"],
         resolvers: [ElementPlusResolver()]
       }),
-      optimizer(getReplacer()), devPlugin()
+      // optimizer(getReplacer()), devPlugin()
     ],
     resolve: {
       alias: {

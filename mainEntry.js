@@ -13,7 +13,6 @@ function createWindow() {
   });
   process.env["ELECTRON_DISABLE_SECURITY_WARNINGS"] = "true";
   mainWindow.loadFile("dist/index.html");
-  mainWindow.setMenu(null);
 }
 app.whenReady().then(() => {
   createWindow();

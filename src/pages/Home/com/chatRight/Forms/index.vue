@@ -28,7 +28,7 @@ const formComHandler = (name: string[]) => {
   })
 }
 //切换Model
-watch(() => FormStore().FormName, (e) => {
+watch(() => FormStore().FormName, (e: any) => {
   formComHandler([e] as any)
 })
 
