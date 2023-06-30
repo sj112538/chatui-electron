@@ -1,4 +1,4 @@
-import { pythonPort } from '@/init'
+import { nodePort, pythonPort } from '@/init'
 import { debounce } from 'lodash'
 import { ref } from 'vue'
 import { Terminal } from "xterm"
@@ -54,7 +54,7 @@ export const useCommand = (terminal?: Ref<HTMLElement | undefined>) => {
   }
   const initWS = () => {
     if (!termWsMap.value?.command) {
-      createWS('command', `ws://127.0.0.1:${GLOB.VITE_API_PORT}/cmd`)
+      createWS('command', `ws://127.0.0.1:${nodePort.value}/cmd`)
     }
   }
   const createWS = (type: TermWsMapKey, url: string) => {

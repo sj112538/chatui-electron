@@ -1,8 +1,9 @@
+import { nodePort } from '@/init'
 import Http from '../http'
 export const slackApi = new class slackApi extends Http {
   getChannel({ channel, token }: Slack) {
     return this.post('post', {
-      allUrl: `http://127.0.0.1:${GLOB.VITE_API_PORT}/getChannel`,
+      allUrl: `http://127.0.0.1:${nodePort.value}/getChannel`,
       body: {
         token
       }
@@ -11,7 +12,7 @@ export const slackApi = new class slackApi extends Http {
   }
   getMember({ channel, token }: Slack) {
     return this.post('post', {
-      allUrl: `http://127.0.0.1:${GLOB.VITE_API_PORT}/getMembers`,
+      allUrl: `http://127.0.0.1:${nodePort.value}/getMembers`,
       body: {
         token,
         channel
@@ -21,7 +22,7 @@ export const slackApi = new class slackApi extends Http {
   }
   postMessage({ message, channel, token, username }: Slack) {
     return this.post('post', {
-      allUrl: `http://127.0.0.1:${GLOB.VITE_API_PORT}/postMessage`,
+      allUrl: `http://127.0.0.1:${nodePort.value}/postMessage`,
       body: {
         message,
         token,
@@ -33,7 +34,7 @@ export const slackApi = new class slackApi extends Http {
   }
   history({ message, channel, token }: Slack) {
     return this.post('post', {
-      allUrl: `http://127.0.0.1:${GLOB.VITE_API_PORT}/history`,
+      allUrl: `http://127.0.0.1:${nodePort.value}/history`,
       body: {
         token,
         channel,
@@ -44,7 +45,7 @@ export const slackApi = new class slackApi extends Http {
 
   test({ message, channel, token }: Slack) {
     return this.post('post', {
-      allUrl: `http://127.0.0.1:${GLOB.VITE_API_PORT}/test`,
+      allUrl: `http://127.0.0.1:${nodePort.value}/test`,
       body: {
         token
       }

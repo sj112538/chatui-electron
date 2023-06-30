@@ -1,3 +1,4 @@
+import { nodePort } from "@/init"
 import { useSession } from "@/pages/Home/com/chatLeft"
 import { ConversationsHistoryResponse } from "@slack/web-api"
 
@@ -41,7 +42,7 @@ class Slack {
     return result
   }
   messageWS = async () => {
-    const ws = new WebSocket(`ws://127.0.0.1:${GLOB.VITE_API_PORT}/slackWs`);
+    const ws = new WebSocket(`ws://127.0.0.1:${nodePort.value}/slackWs`);
     ws.addEventListener('message', (event) => {
       const message = JSON.parse(event.data);
       console.log(message);
